@@ -27,13 +27,7 @@ msbuild.wrn
 
 # Visual Studio / Visual Studio Code
 .vs/
-.vscode
+.vscode/
 
 # JetBrains Rider
 .idea/
-
-# User Modified
-Scripts/Temp/
-
-data/*
-!data/.gitkeep

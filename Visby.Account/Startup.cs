@@ -27,9 +27,12 @@ namespace Karenia.Visby.Account
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string connectionEnvironment =
+                Environment.GetEnvironmentVariable(Configuration.GetConnectionString("ConnectionEnvironment"));
+
             services.AddDbContext<AccountContext>(
                 options => options.UseNpgsql(
-                    Environment.GetEnvironmentVariable("AccountContext")
+                    connectionEnvironment
                 )
             );
 

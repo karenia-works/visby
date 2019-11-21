@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: visby-account
+  labels:
+    name: visby-account
+spec:
+  containers:
+    - name: visby-account
+      image: visby-account
+      resources:
+        limits:
+          memory: "750Mi"
+          cpu: "800m"
+      ports:
+        - containerPort: 80
+          name: api
+    - name: redis
+      image: redis
+      resources:
+        limits:
+          memory: "500Mi"
+          cpu: "200m"

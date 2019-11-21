@@ -29,7 +29,7 @@ namespace Karenia.Visby.Account
         {
             services.AddDbContext<AccountContext>(
                 options => options.UseNpgsql(
-                    Environment.GetEnvironmentVariable("PaperContext")
+                    Environment.GetEnvironmentVariable("AccountContext")
                 )
             );
 

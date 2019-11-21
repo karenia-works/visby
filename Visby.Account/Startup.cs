@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Karenia.Visby.Account.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Karenia.Visby.Account
 {
@@ -25,6 +27,12 @@ namespace Karenia.Visby.Account
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<AccountContext>(
+                options => options.UseNpgsql(
+                    Environment.GetEnvironmentVariable("PaperContext")
+                )
+            );
+
             services.AddControllers();
         }
 
@@ -42,10 +50,7 @@ namespace Karenia.Visby.Account
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

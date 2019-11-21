@@ -4,8 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Karenia.Visby.Papers;
 
-namespace Visby.Papers.Controllers
+namespace Karenia.Visby.Papers.Controllers
 {
     [ApiController]
     [Route("[controller]")]

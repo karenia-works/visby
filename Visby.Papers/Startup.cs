@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Visby.Papers
+namespace Karenia.Visby.Papers
 {
     public class Startup
     {

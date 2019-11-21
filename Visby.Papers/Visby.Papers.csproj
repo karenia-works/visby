@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UserSecretsId>6bb2bef8-f99a-47e1-9b99-56a26d77493a</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <RootNamespace>Karenia.Visby.Papers</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

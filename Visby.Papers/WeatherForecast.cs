@@ -1,6 +1,6 @@
 using System;
 
-namespace Visby.Papers
+namespace Karenia.Visby.Papers
 {
     public class WeatherForecast
     {

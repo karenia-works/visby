@@ -6,7 +6,7 @@ using Karenia.Visby.Account;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Visby.Controllers
+namespace Karenia.Visby.Controllers
 {
     [ApiController]
     [Route("[controller]")]

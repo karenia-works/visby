@@ -10,8 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Karenia.Visby.Papers.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace Visby.Papers
+namespace Karenia.Visby.Papers
 {
     public class Startup
     {
@@ -25,6 +27,15 @@ namespace Visby.Papers
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string connectionEnvironment =
+                Environment.GetEnvironmentVariable(Configuration.GetConnectionString("ConnectionEnvironment"));
+
+            services.AddDbContext<AccountContext>(
+                options => options.UseNpgsql(
+                    connectionEnvironment
+                )
+            );
+
             services.AddControllers();
         }
 
@@ -42,10 +53,7 @@ namespace Visby.Papers
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

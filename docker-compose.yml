@@ -1,0 +1,42 @@
+version: 3
+services:
+  visby-account:
+    build: "Visby.Account/"
+    ports:
+      - 6655:80
+    depends-on:
+      - account-db
+    networks:
+      - account
+
+  account-db:
+    image: postgres:12
+    volumes: account-db-volume:/var/lib/postgresql/data
+    ports:
+      - "5432"
+    networks:
+      - account
+
+  visby-papers:
+    build: "Visby.Papers/"
+    ports:
+      - 6655:80
+    depends-on:
+      - papers-db
+    networks:
+      - papers
+
+  papers-db:
+    image: postgres:12
+    volumes: papers-db-volume:/var/lib/postgresql/data
+    ports:
+      - "5432"
+    networks:
+      - papers
+
+volumes:
+  account-db-volume:
+  papers-db-volume:
+
+networks:
+  account:

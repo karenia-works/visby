@@ -3,20 +3,32 @@ name: Docker Image CI
 on: [push]
 
 jobs:
-
-  build:
-
+  build-account:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Publish Visby.Account
-      uses: machine-learning-apps/gpr-docker-publish@v1.3
-      id: docker
-      with:
-        USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        IMAGE_NAME: 'visby-account'
-        DOCKERFILE_PATH: 'Visby.Account/Dockerfile'
-        BUILD_CONTEXT: 'Visby.Account/'
+      - uses: actions/checkout@v1
+      - name: Publish Visby.Account
+        uses: machine-learning-apps/gpr-docker-publish@v1.3
+        id: docker
+        with:
+          USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          IMAGE_NAME: "visby-account"
+          DOCKERFILE_PATH: "Visby.Account/Dockerfile"
+          BUILD_CONTEXT: "Visby.Account/"
 
+  build-papers:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Publish Visby.Papers
+        uses: machine-learning-apps/gpr-docker-publish@v1.3
+        id: docker
+        with:
+          USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          IMAGE_NAME: "visby-papers"
+          DOCKERFILE_PATH: "Visby.Papers/Dockerfile"
+          BUILD_CONTEXT: "Visby.Papers/"

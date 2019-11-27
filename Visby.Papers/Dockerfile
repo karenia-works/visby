@@ -7,9 +7,9 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.0-buster AS build
 WORKDIR /src
 COPY ["Visby.Papers.csproj", "Visby.Papers/"]
 RUN dotnet restore "Visby.Papers/Visby.Papers.csproj"
-COPY . .
+COPY . Visby.Papers/
 WORKDIR "/src/Visby.Papers"
-RUN dotnet build "Visby.Papers.csproj" -c Release -o /app/build
+RUN dotnet build "Visby.Papers.csproj" -c Release -o /app/build -v m
 
 FROM build AS publish
 RUN dotnet publish "Visby.Papers.csproj" -c Release -o /app/publish

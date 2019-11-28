@@ -1,4 +1,4 @@
-version: 3
+version: "3.3"
 services:
   visby-account:
     build: "Visby.Account/"
@@ -11,7 +11,8 @@ services:
 
   account-db:
     image: postgres:12
-    volumes: account-db-volume:/var/lib/postgresql/data
+    volumes:
+      - account-db-volume:/var/lib/postgresql/data
     ports:
       - "5432"
     networks:
@@ -28,7 +29,8 @@ services:
 
   papers-db:
     image: postgres:12
-    volumes: papers-db-volume:/var/lib/postgresql/data
+    volumes:
+      - papers-db-volume:/var/lib/postgresql/data
     ports:
       - "5432"
     networks:
@@ -40,3 +42,4 @@ volumes:
 
 networks:
   account:
+  papers:

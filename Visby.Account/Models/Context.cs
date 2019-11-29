@@ -51,6 +51,7 @@ namespace Karenia.Visby.Account.Models
         public DbSet<LoginInfo> LoginSessions { set; get; }
         public DbSet<ProfessionApply> ProfessionApplies { set; get; }
         public DbSet<UserFollow> UserFollows { set; get; }
+        public DbSet<Profession> Professions { set; get; }
     }
 
     public class User
@@ -93,5 +94,15 @@ namespace Karenia.Visby.Account.Models
         public int FollowingId { set; get; }
         public User Following { set; get; }
         public DateTime FollowDate { set; get; }
+    }
+
+    public class Profession
+    {
+        public int ProfessionId { set; get; }
+        public int UserId { set; get; }
+        [MaxLength(128)] public string Name { set; get; }
+        [MaxLength(128)] public string Contract { set; get; }
+        [MaxLength(128)] public string Institution { set; get; }
+        public List<string> ReachFields { set; get; }
     }
 }

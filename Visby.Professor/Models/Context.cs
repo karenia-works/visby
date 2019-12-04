@@ -5,11 +5,11 @@ using System.Security.Cryptography;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 
-namespace Karenia.Visby.Account.Models
+namespace Karenia.Visby.Professor.Models
 {
-    public class AccountContext : DbContext
+    public class ProfessorContext : DbContext
     {
-        public AccountContext(DbContextOptions options) : base(options)
+        public ProfessorContext(DbContextOptions options) : base(options)
         {
         }
 

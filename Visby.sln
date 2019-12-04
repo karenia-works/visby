@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visby.Account", "Visby.Acco
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visby.Papers", "Visby.Papers\Visby.Papers.csproj", "{45BF4BB8-44B9-479C-9608-DEAECD4973BE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visby.Professor", "Visby.Professor\Visby.Professor.csproj", "{9A755F29-88D5-490D-A386-22ACD1F0D6D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visby.UserProfile", "Visby.UserProfile\Visby.UserProfile.csproj", "{B421DC71-3B0A-4894-A6C8-A38D5DC08DD0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{45BF4BB8-44B9-479C-9608-DEAECD4973BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45BF4BB8-44B9-479C-9608-DEAECD4973BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45BF4BB8-44B9-479C-9608-DEAECD4973BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A755F29-88D5-490D-A386-22ACD1F0D6D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A755F29-88D5-490D-A386-22ACD1F0D6D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A755F29-88D5-490D-A386-22ACD1F0D6D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A755F29-88D5-490D-A386-22ACD1F0D6D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B421DC71-3B0A-4894-A6C8-A38D5DC08DD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B421DC71-3B0A-4894-A6C8-A38D5DC08DD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B421DC71-3B0A-4894-A6C8-A38D5DC08DD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B421DC71-3B0A-4894-A6C8-A38D5DC08DD0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

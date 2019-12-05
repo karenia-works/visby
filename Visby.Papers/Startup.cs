@@ -30,7 +30,7 @@ namespace Karenia.Visby.Papers
             string connectionEnvironment =
                 Environment.GetEnvironmentVariable(Configuration.GetConnectionString("ConnectionEnvironment"));
 
-            services.AddDbContext<AccountContext>(
+            services.AddDbContext<PaperContext>(
                 options => options.UseNpgsql(
                     connectionEnvironment
                 )

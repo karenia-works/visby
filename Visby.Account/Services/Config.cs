@@ -40,5 +40,9 @@ namespace Karenia.Visby.Account.Services
 
         }
 
+        public static string DBConnect()
+        {
+            return "";
+        }
     }
 }

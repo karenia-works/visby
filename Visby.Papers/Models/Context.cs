@@ -7,9 +7,9 @@ using System.Text;
 
 namespace Karenia.Visby.Papers.Models
 {
-    public class AccountContext : DbContext
+    public class PaperContext : DbContext
     {
-        public AccountContext(DbContextOptions options) : base(options)
+        public PaperContext(DbContextOptions options) : base(options)
         {
         }
 
@@ -47,6 +47,8 @@ namespace Karenia.Visby.Papers.Models
                 .HasOne(uf => uf.Follower)
                 .WithMany(fer => fer.Followers)
                 .HasForeignKey(uf => uf.FollowerId);
+            modelBuilder.Entity<Paper>()
+                .HasKey(p => p.PaperId)
         }
 
         public DbSet<User> Users { set; get; }
@@ -54,6 +56,7 @@ namespace Karenia.Visby.Papers.Models
         public DbSet<ProfessionApply> ProfessionApplies { set; get; }
         public DbSet<UserFollow> UserFollows { set; get; }
         public DbSet<Profession> Professions { set; get; }
+        public DbSet<Paper> Papers { set; get; }
     }
 
     public class User
@@ -135,5 +138,20 @@ namespace Karenia.Visby.Papers.Models
         [MaxLength(128)] public string Contract { set; get; }
         [MaxLength(128)] public string Institution { set; get; }
         public List<string> ReachFields { set; get; }
+    }
+    public class Paper
+    {
+        public int PaperId { set; get; }
+        [MaxLength(128)] public string Title { get; set; }
+        public List<string> Author { set; get; }
+        public List<int> Localauthor { set; get; }
+        public int Type { set; get; }
+        public string summary { get; set; }
+        public int PaperFromType { get; set; }
+        [MaxLength(128)] public string PaperFrom { get; set; }
+        [MaxLength(64)] public string site { get; set; }
+        public DateTime date { get; set; }
+        public List<String> Key { get; set; }
+        public int quote { get; set; }
     }
 }

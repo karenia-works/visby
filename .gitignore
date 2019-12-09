@@ -28,6 +28,6 @@ msbuild.wrn
 # Visual Studio / Visual Studio Code
 .vs/
 .vscode/
-
+.vscode.code-workspace
 # JetBrains Rider
 .idea/

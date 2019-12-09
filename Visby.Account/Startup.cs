@@ -12,7 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Karenia.Visby.Account.Models;
 using Microsoft.EntityFrameworkCore;
-
+using IdentityServer4;
+using Karenia.Visby.Account.Services;
 namespace Karenia.Visby.Account
 {
     public class Startup
@@ -35,8 +36,14 @@ namespace Karenia.Visby.Account
                     connectionEnvironment
                 )
             );
+            services.AddSingleton<AccountServer>();
 
             services.AddControllers();
+            services.AddIdentityServer()
+                .AddDeveloperSigningCredential()
+                .AddInMemoryClients(config.GetClients())
+                .AddInMemoryApiResources(config.GetApiResources())
+                .AddResourceOwnerValidator<AccountStore>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,7 +57,7 @@ namespace Karenia.Visby.Account
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseIdentityServer();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

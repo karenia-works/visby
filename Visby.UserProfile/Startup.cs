@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 using Karenia.Visby.Papers.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Karenia.Visby.Papers
+namespace Karenia.Visby.User
 {
     public class Startup
     {
@@ -30,7 +30,7 @@ namespace Karenia.Visby.Papers
             string connectionEnvironment =
                 Environment.GetEnvironmentVariable(Configuration.GetConnectionString("ConnectionEnvironment"));
 
-            services.AddDbContext<PaperContext>(
+            services.AddDbContext<AccountContext>(
                 options => options.UseNpgsql(
                     connectionEnvironment
                 )

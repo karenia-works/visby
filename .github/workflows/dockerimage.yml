@@ -46,4 +46,4 @@ jobs:
           PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           IMAGE_NAME: "pgsql-jieba"
           DOCKERFILE_PATH: "pgsql-jieba.Dockerfile"
-          BUILD_CONTEXT: ""
+          BUILD_CONTEXT: "."

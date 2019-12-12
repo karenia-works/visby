@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 using Karenia.Visby.Papers.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Karenia.Visby.User
+namespace Karenia.Visby.UserProfile
 {
     public class Startup
     {

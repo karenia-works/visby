@@ -5,11 +5,11 @@ using System.Security.Cryptography;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 
-namespace Karenia.Visby.User.Models
+namespace Karenia.Visby.UserProfile.Models
 {
-    public class UserContext : DbContext
+    public class UserProfileContext : DbContext
     {
-        public UserContext(DbContextOptions options) : base(options)
+        public UserProfileContext(DbContextOptions options) : base(options)
         {
         }
 
@@ -17,10 +17,10 @@ namespace Karenia.Visby.User.Models
         {
             // TODO: FK and UniqueKey
             // USER
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<UserProfile>()
                 .HasIndex(u => u.Email)
                 .IsUnique();
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<UserProfile>()
                 .Property(u => u.Balance)
                 .HasColumnType("money");
 
@@ -49,14 +49,14 @@ namespace Karenia.Visby.User.Models
                 .HasForeignKey(uf => uf.FollowerId);
         }
 
-        public DbSet<User> Users { set; get; }
+        public DbSet<UserProfile> Users { set; get; }
         public DbSet<LoginInfo> LoginSessions { set; get; }
         public DbSet<ProfessionApply> ProfessionApplies { set; get; }
         public DbSet<UserFollow> UserFollows { set; get; }
         public DbSet<Profession> Professions { set; get; }
     }
 
-    public class User
+    public class UserProfile
     {
         public int UserId { set; get; }
         [MaxLength(256)] public string Email { set; get; }
@@ -120,10 +120,11 @@ namespace Karenia.Visby.User.Models
     public class UserFollow
     {
         // 关注者为follower，被关注者为following
+        // 别人关注我应该显示为我的follwer，我关注的人显示为我的following
         public int FollowerId { set; get; }
-        public User Follower { set; get; }
+        public UserProfile Follower { set; get; }
         public int FollowingId { set; get; }
-        public User Following { set; get; }
+        public UserProfile Following { set; get; }
         public DateTime FollowDate { set; get; }
     }
 

@@ -14,11 +14,11 @@ namespace Karenia.Visby.Papers.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    public class ProfessionController : ControllerBase
+    public class PaperController : ControllerBase
     {
         private readonly PaperService _service;
 
-        public ProfessionController(PaperContext context)
+        public PaperController(PaperContext context)
         {
             _service = new PaperService(context);
         }

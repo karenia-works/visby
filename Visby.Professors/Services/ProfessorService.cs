@@ -1,6 +1,6 @@
-using Karenia.Visby.Professor.Models;
+using Karenia.Visby.Professors.Models;
 
-namespace Karenia.Visby.Professor.Services
+namespace Karenia.Visby.Professors.Services
 {
     public class ProfessorService
     {

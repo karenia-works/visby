@@ -10,10 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Karenia.Visby.Professor.Models;
+using Karenia.Visby.Professors.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Karenia.Visby.Professor
+namespace Karenia.Visby.Professors
 {
     public class Startup
     {

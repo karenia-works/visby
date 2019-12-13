@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visby.Account", "Visby.Acco
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visby.Papers", "Visby.Papers\Visby.Papers.csproj", "{45BF4BB8-44B9-479C-9608-DEAECD4973BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visby.Professor", "Visby.Professor\Visby.Professor.csproj", "{9A755F29-88D5-490D-A386-22ACD1F0D6D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visby.Professors", "Visby.Professors\Visby.Professors.csproj", "{9A755F29-88D5-490D-A386-22ACD1F0D6D0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visby.UserProfile", "Visby.UserProfile\Visby.UserProfile.csproj", "{B421DC71-3B0A-4894-A6C8-A38D5DC08DD0}"
 EndProject

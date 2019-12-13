@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 
-namespace Karenia.Visby.Professor.Models
+namespace Karenia.Visby.Professors.Models
 {
     public class ProfessorContext : DbContext
     {
@@ -15,18 +15,18 @@ namespace Karenia.Visby.Professor.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // FK_PROFESSION_APPLY
-            modelBuilder.Entity<ProfessionApply>()
-                .HasOne(pa => pa.Profession)
+            // FK_PROFESSOR_APPLY
+            modelBuilder.Entity<ProfessorApply>()
+                .HasOne(pa => pa.Professor)
                 .WithMany(p => p.Applies)
                 .HasForeignKey(pa => pa.ProfessionId);
         }
 
-        public DbSet<ProfessionApply> ProfessionApplies { set; get; }
-        public DbSet<Profession> Professions { set; get; }
+        public DbSet<ProfessorApply> ProfessorApplies { set; get; }
+        public DbSet<Professor> Professors { set; get; }
     }
 
-    public class ProfessionApply
+    public class ProfessorApply
     {
         public int ProfessionApplyId { set; get; }
         public DateTime ApplyDate { set; get; }
@@ -38,10 +38,10 @@ namespace Karenia.Visby.Professor.Models
 
         // FK_APPLY_PROFESSION
         public int ProfessionId { set; get; }
-        public Profession Profession { set; get; }
+        public Professor Professor { set; get; }
     }
 
-    public class Profession
+    public class Professor
     {
         public int ProfessionId { set; get; }
         public int UserId { set; get; }
@@ -51,6 +51,6 @@ namespace Karenia.Visby.Professor.Models
         public List<string> ReachFields { set; get; }
 
         // FK_APPLY_PROFESSION
-        public List<ProfessionApply> Applies { set; get; }
+        public List<ProfessorApply> Applies { set; get; }
     }
 }

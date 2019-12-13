@@ -14,11 +14,11 @@ namespace Karenia.Visby.UserProfile.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    public class UserProfileController : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly UserProfileService _service;
 
-        public UserProfileController(UserProfileContext context)
+        public UserController(UserProfileContext context)
         {
             _service = new UserProfileService(context);
         }

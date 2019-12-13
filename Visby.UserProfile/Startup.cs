@@ -10,8 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Karenia.Visby.Papers.Models;
 using Microsoft.EntityFrameworkCore;
+using Karenia.Visby.UserProfile.Models;
 
 namespace Karenia.Visby.UserProfile
 {
@@ -30,7 +30,7 @@ namespace Karenia.Visby.UserProfile
             string connectionEnvironment =
                 Environment.GetEnvironmentVariable(Configuration.GetConnectionString("ConnectionEnvironment"));
 
-            services.AddDbContext<AccountContext>(
+            services.AddDbContext<UserProfileContext>(
                 options => options.UseNpgsql(
                     connectionEnvironment
                 )

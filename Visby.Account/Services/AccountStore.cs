@@ -5,24 +5,22 @@ using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4;
 using System.Collections.Generic;
+
 namespace Karenia.Visby.Account.Services
 {
-
-
     public class AccountStore : IResourceOwnerPasswordValidator
     {
-
         public AccountServer _accountserver { get; set; }
+
         public AccountStore(AccountServer accountServer)
         {
             _accountserver = accountServer;
-
         }
 
 
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            var result = await _accountserver.findLoginInfo(context.UserName);
+            var result = await _accountserver.FindLoginInfo(context.UserName);
             if (result == null || !result.checkPassword(context.Password))
             {
                 context.Result = new GrantValidationResult(
@@ -35,7 +33,8 @@ namespace Karenia.Visby.Account.Services
                 context.Result = new GrantValidationResult(
                     subject: result.Email,
                     authenticationMethod: "custom",
-                    claims: new Claim[]{
+                    claims: new Claim[]
+                    {
                         new Claim("id", result.Email),
                         new Claim("Role", result.Type.ToString())
                     }
@@ -44,4 +43,3 @@ namespace Karenia.Visby.Account.Services
         }
     }
 }
-

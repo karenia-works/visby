@@ -18,9 +18,9 @@ namespace Karenia.Visby.Professors.Controllers
     {
         private readonly ProfessorApplyService _service;
 
-        public ApplyController(ProfessorContext context)
+        public ApplyController(ProfessorApplyService service)
         {
-            _service = new ProfessorApplyService(context);
+            _service = service;
         }
     }
 }

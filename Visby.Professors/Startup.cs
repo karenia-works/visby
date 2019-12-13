@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Karenia.Visby.Professors.Models;
+using Karenia.Visby.Professors.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Karenia.Visby.Professors
@@ -37,36 +38,40 @@ namespace Karenia.Visby.Professors
             );
 
             services.AddAuthorization(option =>
-            {
-                option.AddPolicy(
-                    "professorApi", policy =>
-                    {
-                        policy.RequireAuthenticatedUser();
-                        policy.RequireClaim("Role", "professor");
-                    });
-                option.AddPolicy(
-                    "userProfileApi", policy =>
-                    {
-                        policy.RequireAuthenticatedUser();
-                        policy.RequireClaim("Role", "userProfile");
-                    }
-                );
-                option.AddPolicy(
-                    "adminApi", policy =>
-                    {
-                        policy.RequireAuthenticatedUser();
-                        policy.RequireClaim("Role", "admin");
-                    }
-                );
-            }
-
+                {
+                    option.AddPolicy(
+                        "professorApi", policy =>
+                        {
+                            policy.RequireAuthenticatedUser();
+                            policy.RequireClaim("Role", "professor");
+                        });
+                    option.AddPolicy(
+                        "userProfileApi", policy =>
+                        {
+                            policy.RequireAuthenticatedUser();
+                            policy.RequireClaim("Role", "userProfile");
+                        }
+                    );
+                    option.AddPolicy(
+                        "adminApi", policy =>
+                        {
+                            policy.RequireAuthenticatedUser();
+                            policy.RequireClaim("Role", "admin");
+                        }
+                    );
+                }
             );
+
+            services.AddSingleton<ProfessorService>();
+            services.AddSingleton<ProfessorApplyService>();
+
             services.AddAuthentication().AddIdentityServerAuthentication(option =>
-            {//TODO change into real ip
-                option.Authority = "localhost:6060";
-                option.ApiName = "api1";
-                option.ApiSecret = "client";
-            }
+                {
+                    //TODO change into real ip
+                    option.Authority = "localhost:6060";
+                    option.ApiName = "api1";
+                    option.ApiSecret = "client";
+                }
             );
 
             services.AddControllers();

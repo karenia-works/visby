@@ -26,15 +26,18 @@ namespace Karenia.Visby.Papers.Models
     {
         public int PaperId { set; get; }
         [MaxLength(128)] public string Title { get; set; }
-        public List<string> Author { set; get; }
-        public List<int> LocalAuthor { set; get; }
+        public List<string> Authors { set; get; }
         public int Type { set; get; }
         public string Summary { get; set; }
         public int PaperFromType { get; set; }
         [MaxLength(128)] public string PaperFrom { get; set; }
         [MaxLength(64)] public string Site { get; set; }
         public DateTime Date { get; set; }
-        public List<String> Key { get; set; }
+        public List<String> Keywords { get; set; }
         public int Quote { get; set; }
+        
+        // 本站收录的专家
+        // 跨库无法建外键
+        public List<int> LocalAuthorIds { set; get; }
     }
 }

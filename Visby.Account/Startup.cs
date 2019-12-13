@@ -41,8 +41,8 @@ namespace Karenia.Visby.Account
             services.AddControllers();
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
-                .AddInMemoryClients(config.GetClients())
-                .AddInMemoryApiResources(config.GetApiResources())
+                .AddInMemoryClients(Config.GetClients())
+                .AddInMemoryApiResources(Config.GetApiResources())
                 .AddResourceOwnerValidator<AccountStore>();
         }
 

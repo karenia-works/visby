@@ -10,8 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Karenia.Visby.UserProfile.Models;
 using Microsoft.EntityFrameworkCore;
+using Karenia.Visby.UserProfile.Models;
 
 namespace Karenia.Visby.UserProfile
 {

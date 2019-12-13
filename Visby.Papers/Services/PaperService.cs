@@ -1,22 +1,27 @@
-﻿using Karenia.Visby.Papers.Models;
+﻿using System;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System;
-namespace Visby.Papers.Services
+using Karenia.Visby.Papers.Models;
+using Microsoft.EntityFrameworkCore.Internal;
+
+namespace Karenia.Visby.Papers.Services
 {
     public class PaperService
     {
-        PaperContext db;
+        private readonly PaperContext _context;
+
         public PaperService(PaperContext paperContext)
         {
-            db = paperContext;
+            _context = paperContext;
         }
-        public async Task<Paper> getPaper(int id)
+
+        public async Task<Paper> GetPaper(int id)
         {
-            var p = await db.Papers.AsQueryable().Where(p => p.PaperId == id).FirstOrDefaultAsync();
-            return p;
+            return await _context.Papers
+                .Where(p => p.PaperId == id)
+                .FirstOrDefaultAsync();
         }
         public async Task<List<Paper>> getPaperKeyword(List<String> Keywords)
         {

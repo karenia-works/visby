@@ -4,18 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using Microsoft.EntityFrameworkCore;
+
 namespace Karenia.Visby.Account.Services
 {
     public class AccountServer
     {
-        AccountContext db;
+        private readonly AccountContext _context;
+
         public AccountServer(AccountContext accountContext)
         {
-            db = accountContext;
+            _context = accountContext;
         }
-        public async Task<LoginInfo> findLoginInfo(string email)//TODO  根据用户的邮箱返回相应登录信息，如果没有返回空值
+
+        public async Task<LoginInfo> FindLoginInfo(string email) //TODO  根据用户的邮箱返回相应登录信息，如果没有返回空值
         {
-            var tgt = await db.LoginSessions.AsQueryable().Where(o => o.Email == email).FirstOrDefaultAsync();
+            var tgt = await _context.LoginSessions.AsQueryable().Where(o => o.Email == email).FirstOrDefaultAsync();
             return tgt;
         }
     }

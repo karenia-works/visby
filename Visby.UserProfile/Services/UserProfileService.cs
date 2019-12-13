@@ -4,45 +4,57 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
-namespace Kiruna.Visby.UserProfole.Services
+using System.Diagnostics.CodeAnalysis;
+using Karenia.Visby.UserProfile.Models;
+
+namespace Karenia.Visby.UserProfile.Services
 {
     public class UserProfileService
     {
-        UserProfileContext db;
-        public UserProfileService(UserProfileContext userProfileContent)
+        private readonly UserProfileContext _context;
+
+        public UserProfileService(UserProfileContext userProfileContext)
         {
-            db = userProfileContent;
-        }
-        public async Task<UserProfile> GetUserProfile(int id)
-        {
-            var p = await db.Users.AsQueryable().Where(p => p.UserId == id).FirstOrDefaultAsync();
-            return p;
+            _context = userProfileContext;
         }
 
-        public async Task<List<UserProfile>> GetUserProfilesKeyword(String Keywords)
+        public async Task<User> GetUserProfile(int id)
         {
-            var p = await db.Users.FromSqlRaw("Select * from Users where UserName like '{0}'", Keywords).ToListAsync();
-            return p;
+            return await _context.UserProfiles
+                .Where(p => p.UserId == id)
+                .FirstOrDefaultAsync();
         }
 
-        public async Task<UserProfile> GetUserProfileEmail(string email)
+        public async Task<List<User>> GetUserProfilesKeyword(string keyword)
         {
-            var p = await db.Users.AsQueryable().Where(p => p.Email == email).FirstOrDefaultAsync();
-            return p;
+            return await _context.UserProfiles
+                .Where(up => up.UserName.Contains(keyword))
+                .ToListAsync();
         }
 
-        public async Task<List<UserProfile>> GetFollowers(int id)
+        public async Task<User> GetUserProfileEmail(string email)
         {
-            //var p = await db.Users.AsQueryable().Where(p => p.UserId == id).FirstOrDefaultAsync();
-            var p = await db.Users.FromSqlRaw("select Followers from Users where UserId='{0}'", id).ToListAsync();
-            return p;
+            return await _context.UserProfiles.AsQueryable().Where(p => p.Email == email).FirstOrDefaultAsync();
         }
 
-        public async Task<List<UserProfile>> GetFollowings(int id)
+        public async Task<List<User>> GetFollowers(int id)
         {
-            //var p = await db.Users.AsQueryable().Where(p => p.UserId == id).FirstOrDefaultAsync();
-            var p = await db.Users.FromSqlRaw("select Followings from Users where UserId='{0}'", id).ToListAsync();
-            return p;
+            // 获取主动关注当前用户的人
+            return await _context.UserFollows
+                .Where(uf => uf.FollowerId == id)
+                .Select(uf => _context.UserProfiles
+                    .FirstOrDefault(up => up.UserId == uf.FollowingId))
+                .ToListAsync();
+        }
+
+        public async Task<List<User>> GetFollowings(int id)
+        {
+            // 获取当前用户主动关注的人
+            return await _context.UserFollows
+                .Where(uf => uf.FollowerId == id)
+                .Select(uf => _context.UserProfiles
+                    .FirstOrDefault(up => up.UserId == uf.FollowerId))
+                .ToListAsync();
         }
     }
 }

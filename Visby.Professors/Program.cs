@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Karenia.Visby.Professor
+namespace Karenia.Visby.Professors
 {
     public class Program
     {

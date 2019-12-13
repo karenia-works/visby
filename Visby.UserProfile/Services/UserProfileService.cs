@@ -1,9 +1,8 @@
-using Karenia.Visby.UserProfile.Models;
+using System;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System;
 using System.Diagnostics.CodeAnalysis;
 using Karenia.Visby.UserProfile.Models;
 

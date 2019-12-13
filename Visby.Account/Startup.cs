@@ -14,6 +14,7 @@ using Karenia.Visby.Account.Models;
 using Microsoft.EntityFrameworkCore;
 using IdentityServer4;
 using Karenia.Visby.Account.Services;
+
 namespace Karenia.Visby.Account
 {
     public class Startup
@@ -54,12 +55,9 @@ namespace Karenia.Visby.Account
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
             app.UseIdentityServer();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

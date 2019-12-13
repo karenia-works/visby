@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using IdentityServer4;
 using System.Security.Claims;
+using IdentityServer4.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace Karenia.Visby.Account.Services
 {
@@ -23,7 +25,7 @@ namespace Karenia.Visby.Account.Services
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
                     ClientSecrets =
                     {
-                        new Secret("client".Sha256())
+                        new Secret("client")
                     },
                     AllowedScopes = new[] {IdentityServer4.IdentityServerConstants.LocalApi.ScopeName},
                     // AllowedCorsOrigins=new[]{"*"}
@@ -35,7 +37,11 @@ namespace Karenia.Visby.Account.Services
 
         public static IEnumerable<ApiResource> GetApiResources()
         {
-            return new List<ApiResource> { };
+            return new List<ApiResource> {
+                new ApiResource("adminApi","adminApi",new string[]{"Name","Role"}),
+                new ApiResource("professorApi","professorApi",new string[]{"Name","Role"}),
+                new ApiResource("userApi","userApi",new string[]{"Name","Role"})
+             };
         }
 
         public static string DBConnect()

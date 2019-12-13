@@ -35,7 +35,38 @@ namespace Karenia.Visby.UserProfile
                     connectionEnvironment
                 )
             );
+            services.AddAuthorization(option =>
+            {
+                option.AddPolicy(
+                    "professorApi", policy =>
+                    {
+                        policy.RequireAuthenticatedUser();
+                        policy.RequireClaim("Role", "professor");
+                    });
+                option.AddPolicy(
+                    "userProfileApi", policy =>
+                    {
+                        policy.RequireAuthenticatedUser();
+                        policy.RequireClaim("Role", "userProfile");
+                    }
+                );
+                option.AddPolicy(
+                    "adminApi", policy =>
+                    {
+                        policy.RequireAuthenticatedUser();
+                        policy.RequireClaim("Role", "admin");
+                    }
+                );
+            }
 
+            );
+            services.AddAuthentication().AddIdentityServerAuthentication(option =>
+            {//TODO change into real ip
+                option.Authority = "localhost:6060";
+                option.ApiName = "api1";
+                option.ApiSecret = "client";
+            }
+            );
             services.AddControllers();
         }
 

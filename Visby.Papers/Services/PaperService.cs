@@ -35,14 +35,17 @@ namespace Karenia.Visby.Papers.Services
         }
         public async Task<List<Paper>> GetPaperLocalAuthor(List<int> Localauthers)
         {
-            var ps = await _context.Papers.FromSqlRaw("select * from Papers where Localauthor <@'{0}'", Localauthers).ToListAsync();
+            var ps = await _context.Papers.FromSqlRaw("select * from Papers where LocalauthorIds <@'{0}'", Localauthers).ToListAsync();
             return ps;
         }
-        public async Task<List<Paper>> GetPaperSummery(String tgt)//记得 加索引
+        public async Task<List<Paper>> GetPaperSummary(String tgt)//记得 加索引
         {
             var ps = await _context.Papers.FromSqlRaw("select *,MAX(similarity({0},Title),similarity({0},summary)) As sml from paper where (summary % '{0}') or (summary%{0}) order by sml,quote DESC", tgt).ToListAsync();
             return ps;
         }
-        public async Task<List<Paper>> GetPapers
+        public async void insertPaper(Paper tgt)
+        {
+            var result = await _context.Papers.AddAsync(tgt);
+        }
     }
 }

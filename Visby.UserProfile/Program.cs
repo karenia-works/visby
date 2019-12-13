@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Karenia.Visby.User
+namespace Karenia.Visby.UserProfile
 {
     public class Program
     {

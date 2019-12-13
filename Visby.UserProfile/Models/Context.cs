@@ -32,13 +32,9 @@ namespace Karenia.Visby.UserProfile.Models
             modelBuilder.Entity<LoginInfo>()
                 .HasKey(li => li.UserId);
 
-            // PROFESSION_APPLY
-            modelBuilder.Entity<ProfessionApply>()
-                .HasKey(pa => pa.ApplyId);
-
             // FOLLOW
             modelBuilder.Entity<UserFollow>()
-                .HasKey(uf => new { uf.FollowerId, uf.FollowingId });
+                .HasKey(uf => new {uf.FollowerId, uf.FollowingId});
             modelBuilder.Entity<UserFollow>()
                 .HasOne(uf => uf.Following)
                 .WithMany(fg => fg.Followings)
@@ -51,9 +47,7 @@ namespace Karenia.Visby.UserProfile.Models
 
         public DbSet<UserProfile> Users { set; get; }
         public DbSet<LoginInfo> LoginSessions { set; get; }
-        public DbSet<ProfessionApply> ProfessionApplies { set; get; }
         public DbSet<UserFollow> UserFollows { set; get; }
-        public DbSet<Profession> Professions { set; get; }
     }
 
     public class UserProfile
@@ -102,19 +96,9 @@ namespace Karenia.Visby.UserProfile.Models
             {
                 eq = eq && byteArray[i] == other[i];
             }
+
             return eq;
         }
-    }
-
-    public class ProfessionApply
-    {
-        public int ApplyId { set; get; }
-        public DateTime ApplyDate { set; get; }
-        public int ApplyState { set; get; }
-        [MaxLength(128)] public string Name { set; get; }
-        [MaxLength(128)] public string Contract { set; get; }
-        [MaxLength(128)] public string Institution { set; get; }
-        [MaxLength(2048)] public string CertificateDocument { set; get; }
     }
 
     public class UserFollow
@@ -126,15 +110,5 @@ namespace Karenia.Visby.UserProfile.Models
         public int FollowingId { set; get; }
         public UserProfile Following { set; get; }
         public DateTime FollowDate { set; get; }
-    }
-
-    public class Profession
-    {
-        public int ProfessionId { set; get; }
-        public int UserId { set; get; }
-        [MaxLength(128)] public string Name { set; get; }
-        [MaxLength(128)] public string Contract { set; get; }
-        [MaxLength(128)] public string Institution { set; get; }
-        public List<string> ReachFields { set; get; }
     }
 }

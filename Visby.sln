@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visby.Professor", "Visby.Pr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visby.UserProfile", "Visby.UserProfile\Visby.UserProfile.csproj", "{B421DC71-3B0A-4894-A6C8-A38D5DC08DD0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visby.Result", "Visby.Result\Visby.Result.csproj", "{5C486A82-D0CD-4B29-A005-529CEA332B3F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{B421DC71-3B0A-4894-A6C8-A38D5DC08DD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B421DC71-3B0A-4894-A6C8-A38D5DC08DD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B421DC71-3B0A-4894-A6C8-A38D5DC08DD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C486A82-D0CD-4B29-A005-529CEA332B3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C486A82-D0CD-4B29-A005-529CEA332B3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C486A82-D0CD-4B29-A005-529CEA332B3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C486A82-D0CD-4B29-A005-529CEA332B3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

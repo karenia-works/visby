@@ -22,4 +22,8 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Visby.Result\Visby.Result.csproj" />
+  </ItemGroup>
+
 </Project>

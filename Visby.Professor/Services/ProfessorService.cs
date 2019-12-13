@@ -2,11 +2,11 @@ using Karenia.Visby.Professor.Models;
 
 namespace Karenia.Visby.Professor.Services
 {
-    public class UserProfileService
+    public class ProfessorService
     {
         private readonly ProfessorContext _context;
 
-        public UserProfileService(ProfessorContext professorContext)
+        public ProfessorService(ProfessorContext professorContext)
         {
             _context = professorContext;
         }

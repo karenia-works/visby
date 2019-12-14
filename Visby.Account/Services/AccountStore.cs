@@ -21,7 +21,7 @@ namespace Karenia.Visby.Account.Services
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
             var result = await _accountserver.FindLoginInfo(context.UserName);
-            if (result == null || !result.checkPassword(context.Password))
+            if (result == null || result.password!=context.Password))
             {
                 context.Result = new GrantValidationResult(
                     TokenRequestErrors.InvalidGrant,

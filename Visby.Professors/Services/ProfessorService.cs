@@ -35,6 +35,7 @@ namespace Karenia.Visby.Professors.Services
                 .Where(p => p.Institution.Contains(institutionKeyword))
                 .ToListAsync();
         }
+
         public async Task<Tuple<bool, Result<Professor>>> CreateProfessor(Professor professor)
         {
             // 传入的字段并不会全，所以要重新初始化一次
@@ -59,7 +60,7 @@ namespace Karenia.Visby.Professors.Services
 
         public async void DeleteProfessor(Professor professor)
         {
-            _context.Remove(professor);
+            _context.Professors.Remove(professor);
             await _context.SaveChangesAsync();
         }
     }

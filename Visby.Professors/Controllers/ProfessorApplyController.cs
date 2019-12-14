@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Karenia.Visby.Professors.Models;
 using Karenia.Visby.Professors.Services;
 using Karenia.Visby.Result;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace Karenia.Visby.Professors.Controllers
 {
@@ -21,6 +22,65 @@ namespace Karenia.Visby.Professors.Controllers
         public ApplyController(ProfessorApplyService service)
         {
             _service = service;
+        }
+
+        // GET api/professor?offset={offset}&limit={limit}&keyword={keyword}
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            // TODO: impl it
+            return NotFound();
+        }
+
+        // GET api/apply/{apply id}
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            Result<ProfessorApply> result;
+            var apply = await _service.GetApply(id);
+            if (apply == null)
+            {
+                result = new Result<ProfessorApply>(404, "Professor not exists", null);
+                return NotFound(result);
+            }
+
+            result = new Result<ProfessorApply>(200, null, apply);
+            return Ok(result);
+        }
+        
+        // POST api/professor
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] ProfessorApply apply)
+        {
+            var result = await _service.CreateApply(apply);
+            if (result.Item1)
+                return Ok(result.Item2);
+            return BadRequest(result.Item2);
+        }
+        
+        // PATCH api/article/{id}
+        // 传值见 https://www.cnblogs.com/lwqlun/p/10433615.html
+        // 无返回值
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<ProfessorApply> apply)
+        {
+            ProfessorApply applyResult = await _service.GetApply(id);
+            if (applyResult == null)
+                return BadRequest();
+            apply.ApplyTo(applyResult);
+            return Ok();
+        }
+
+        // DELETE api/professor?id={professor id}
+        // 无返回值
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromQuery(Name = "id")] int id)
+        {
+            var professor = await _service.GetApply(id);
+            if (professor == null)
+                return NotFound();
+            _service.DeleteApply(professor);
+            return NoContent();
         }
     }
 }

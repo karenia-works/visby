@@ -12,7 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Karenia.Visby.Papers.Models;
 using Microsoft.EntityFrameworkCore;
-
+using IdentityServer4;
+using IdentityServer4.Services;
 namespace Karenia.Visby.Papers
 {
     public class Startup
@@ -35,7 +36,38 @@ namespace Karenia.Visby.Papers
                     connectionEnvironment
                 )
             );
+            services.AddAuthorization(option =>
+            {
+                option.AddPolicy(
+                    "professorApi", policy =>
+                    {
+                        policy.RequireAuthenticatedUser();
+                        policy.RequireClaim("Role", "professor");
+                    });
+                option.AddPolicy(
+                    "userProfileApi", policy =>
+                    {
+                        policy.RequireAuthenticatedUser();
+                        policy.RequireClaim("Role", "userProfile");
+                    }
+                );
+                option.AddPolicy(
+                    "adminApi", policy =>
+                    {
+                        policy.RequireAuthenticatedUser();
+                        policy.RequireClaim("Role", "admin");
+                    }
+                );
+            }
 
+            );
+            services.AddAuthentication().AddIdentityServerAuthentication(option =>
+            {//TODO change into real ip
+                option.Authority = "localhost:6060";
+                option.ApiName = "api1";
+                option.ApiSecret = "client";
+            }
+            );
             services.AddControllers();
         }
 
@@ -47,12 +79,10 @@ namespace Karenia.Visby.Papers
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
+            app.UseAuthentication();
 
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

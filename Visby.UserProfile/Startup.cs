@@ -10,10 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Karenia.Visby.Papers.Models;
 using Microsoft.EntityFrameworkCore;
+using Karenia.Visby.UserProfile.Models;
 
-namespace Karenia.Visby.User
+namespace Karenia.Visby.UserProfile
 {
     public class Startup
     {
@@ -30,12 +30,43 @@ namespace Karenia.Visby.User
             string connectionEnvironment =
                 Environment.GetEnvironmentVariable(Configuration.GetConnectionString("ConnectionEnvironment"));
 
-            services.AddDbContext<AccountContext>(
+            services.AddDbContext<UserProfileContext>(
                 options => options.UseNpgsql(
                     connectionEnvironment
                 )
             );
+            services.AddAuthorization(option =>
+            {
+                option.AddPolicy(
+                    "professorApi", policy =>
+                    {
+                        policy.RequireAuthenticatedUser();
+                        policy.RequireClaim("Role", "professor");
+                    });
+                option.AddPolicy(
+                    "userProfileApi", policy =>
+                    {
+                        policy.RequireAuthenticatedUser();
+                        policy.RequireClaim("Role", "userProfile");
+                    }
+                );
+                option.AddPolicy(
+                    "adminApi", policy =>
+                    {
+                        policy.RequireAuthenticatedUser();
+                        policy.RequireClaim("Role", "admin");
+                    }
+                );
+            }
 
+            );
+            services.AddAuthentication().AddIdentityServerAuthentication(option =>
+            {//TODO change into real ip
+                option.Authority = "localhost:6060";
+                option.ApiName = "api1";
+                option.ApiSecret = "client";
+            }
+            );
             services.AddControllers();
         }
 
@@ -47,12 +78,8 @@ namespace Karenia.Visby.User
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

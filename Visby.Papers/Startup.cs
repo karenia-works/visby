@@ -14,6 +14,7 @@ using Karenia.Visby.Papers.Models;
 using Microsoft.EntityFrameworkCore;
 using IdentityServer4;
 using IdentityServer4.Services;
+using Karenia.Visby.Papers.Services;
 namespace Karenia.Visby.Papers
 {
     public class Startup
@@ -68,6 +69,7 @@ namespace Karenia.Visby.Papers
                 option.ApiSecret = "client";
             }
             );
+            services.AddSingleton<PaperService>();
             services.AddControllers();
         }
 

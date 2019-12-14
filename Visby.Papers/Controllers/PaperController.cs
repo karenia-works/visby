@@ -18,9 +18,10 @@ namespace Karenia.Visby.Papers.Controllers
     {
         private readonly PaperService _service;
 
-        public PaperController(PaperContext context)
+        public PaperController(PaperService service)
         {
-            _service = new PaperService(context);
+            _service = service;
         }
+        public
     }
 }

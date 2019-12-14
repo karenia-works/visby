@@ -35,7 +35,7 @@ namespace Karenia.Visby.Account.Services
                     authenticationMethod: "custom",
                     claims: new Claim[]
                     {
-                        new Claim("id", result.Email),
+                        new Claim("Name", result.Email),
                         new Claim("Role", result.Type.ToString())
                     }
                 );

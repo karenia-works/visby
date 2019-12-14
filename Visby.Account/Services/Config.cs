@@ -48,5 +48,14 @@ namespace Karenia.Visby.Account.Services
         {
             return "";
         }
+        public static IEnumerable<TestUser>GetUser(){
+            return new []{
+                new TestUser{
+                    SubjectId="10000",
+                    Username="zhang",
+                    Password="zhang"
+                }
+            }
+        }
     }
 }

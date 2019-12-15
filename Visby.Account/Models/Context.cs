@@ -11,6 +11,7 @@ namespace Karenia.Visby.Account.Models
     {
         public AccountContext(DbContextOptions options) : base(options)
         {
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

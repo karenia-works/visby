@@ -30,15 +30,14 @@ namespace Karenia.Visby.Account
         public void ConfigureServices(IServiceCollection services)
         {
 
-
             services.AddDbContext<AccountContext>(
                 options => options.UseNpgsql(
-                    "Host=10.251.252.9;Port=54321;Username=postgres;Password=postgres;Database=account"
+                    "Host=visby_account-db_1;Username=postgres;Password=postgres;Database=account"
                 )
             );
 
             services.AddScoped<AccountService>();
-
+            services.AddScoped<AccountStore>();
             services.AddControllers();
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()

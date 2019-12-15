@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using Karenia.Visby.Papers.Models;
 using Karenia.Visby.Papers.Services;
 using Karenia.Visby.Result;
-
+using Microsoft.AspNetCore.Authorization;
 namespace Karenia.Visby.Papers.Controllers
 {
-    [Produces("application/json")]
+    //[Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class PaperController : ControllerBase
@@ -22,6 +22,13 @@ namespace Karenia.Visby.Papers.Controllers
         {
             _service = service;
         }
-        public
+        [Authorize("adminApi")]
+        [HttpGet("test")]
+        public string test()
+        {
+            return "hello";
+        }
+
+
     }
 }

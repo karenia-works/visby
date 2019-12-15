@@ -10,39 +10,42 @@ services:
     #    - account-db
     networks:
       - account
-  # account-db:
-  #   image: postgres:12
-  #   volumes:
-  #     - account-db-volume:/var/lib/postgresql/data
-  #   environment:
-  #     POSTGRES_USER: root
-  #     POSTGRES_PASSWORD: 123456
-  #   ports:
-  #     - 54321:5432
-  #   networks:
-  #     - account
+      - papers
+
+  account-db:
+    image: postgres:12
+    volumes:
+      - account-db-volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - 54321:5432
+    networks:
+      - account
   # visby-papers:
   #   build:
   #     context: "."
   #     dockerfile: "./papers.Dockerfile"
   #   ports:
-  #     - 6655:80
-  #    depends_on:
-  #     - papers-db
+  #     - 6656:80
+  #   #  depends_on:
+  #   #   - papers-db
   #   networks:
   #     - papers
-  # papers-db:
-  #   image: postgres:12
-  #   volumes:
-  #     - papers-db-volume:/var/lib/postgresql/data
-  #     - ~/share:/usr/lib/postgresql/share
-  #   environment:
-  #     POSTGRES_USER: root
-  #     POSTGRES_PASSWORD: 123456
-  #   ports:
-  #     - 54322:5432
-  #   networks:
-  #     - papers
+  #     - account
+  papers-db:
+    image: postgres:12
+    volumes:
+      - papers-db-volume:/var/lib/postgresql/data
+      - ~/share:/usr/lib/postgresql/share
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - 54322:5432
+    networks:
+      - papers
 
 volumes:
   account-db-volume:

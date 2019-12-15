@@ -31,15 +31,13 @@ namespace Karenia.Visby.Account
         {
 
             services.AddDbContext<AccountContext>(
-                options => options.UseNpgsql(
-                    "Host=visby_account-db_1;Username=postgres;Password=postgres;Database=account"
-                )
+                options => options.UseNpgsql("Host=visby_account-db_1;Username=postgres;Password=postgres;Database=account")
             );
 
             services.AddScoped<AccountService>();
             services.AddScoped<AccountStore>();
             services.AddControllers();
-            services.AddIdentityServer()
+            services.AddIdentityServer().AddJwtBearerClientAuthentication()
                 .AddDeveloperSigningCredential()
                 .AddInMemoryClients(Config.GetClients())
                 .AddInMemoryApiResources(Config.GetApiResources())
@@ -56,7 +54,6 @@ namespace Karenia.Visby.Account
 
             app.UseRouting();
             app.UseIdentityServer();
-            app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

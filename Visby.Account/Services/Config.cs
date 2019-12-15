@@ -6,9 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using IdentityServer4;
 using System.Security.Claims;
-using IdentityServer4.Models;
-using Microsoft.Extensions.Configuration;
-
 namespace Karenia.Visby.Account.Services
 {
     public class Config
@@ -25,9 +22,9 @@ namespace Karenia.Visby.Account.Services
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
                     ClientSecrets =
                     {
-                        new Secret("client")
+                        new Secret("client".Sha256())
                     },
-                    AllowedScopes = new[] {IdentityServer4.IdentityServerConstants.LocalApi.ScopeName},
+                    AllowedScopes = new[] {"scope"},
                     // AllowedCorsOrigins=new[]{"*"}
                     AccessTokenLifetime = 3600 * 24,
                     RefreshTokenUsage = TokenUsage.ReUse
@@ -40,6 +37,7 @@ namespace Karenia.Visby.Account.Services
             return new List<ApiResource> {
                 new ApiResource("adminApi","adminApi",new string[]{"Name","Role"}),
                 new ApiResource("professorApi","professorApi",new string[]{"Name","Role"}),
+                new ApiResource("scope","IdentityApi",new string[]{"Name","Role"}),
                 new ApiResource("userApi","userApi",new string[]{"Name","Role"})
              };
         }
@@ -48,14 +46,15 @@ namespace Karenia.Visby.Account.Services
         {
             return "";
         }
-        public static IEnumerable<TestUser>GetUser(){
-            return new []{
+        public static IEnumerable<TestUser> GetUser()
+        {
+            return new[]{
                 new TestUser{
                     SubjectId="10000",
                     Username="zhang",
                     Password="zhang"
                 }
-            }
+            };
         }
     }
 }

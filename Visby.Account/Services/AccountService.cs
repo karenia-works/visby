@@ -5,7 +5,6 @@ using System.Linq;
 using System;
 using Microsoft.EntityFrameworkCore;
 
-using Karenia.Visby.Account.Models;
 
 namespace Karenia.Visby.Account.Services
 {

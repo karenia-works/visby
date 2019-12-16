@@ -2,7 +2,7 @@ FROM postgres:12-alpine
 RUN apk add --no-cache --virtual .fetch-deps \
         ca-certificates \
         openssl \
-        tar git make libpq-dev libpq5 \
+        tar git make postgresql-libs postgresql-deb \
 WORKDIR /tmp/jieba
 RUN git clone https://github.com/jaiminpan/pg_jieba.git --recursive --depth=5 --shallow-submodules
 RUN apk add --no-cache --virtual .build-deps \

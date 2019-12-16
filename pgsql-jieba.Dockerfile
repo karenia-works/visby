@@ -15,7 +15,7 @@ RUN apk add --no-cache --virtual .build-deps \
         make cmake \
         perl 
 WORKDIR /tmp/jieba/pg_jieba
-RUN mkdir build && cd build && cmake .. -DPostgreSQL_TYPE_INCLUDE_DIR=/usr/include/postgresql/12/server
+RUN mkdir build && cd build && cmake ..
 WORKDIR /tmp/jieba/pg_jieba/build
 RUN make 
 RUN make install

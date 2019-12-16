@@ -15,11 +15,11 @@ namespace Karenia.Visby.Professors.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // FK_PROFESSOR_APPLY
+            // FK_APPLY_PROFESSOR
             modelBuilder.Entity<ProfessorApply>()
                 .HasOne(pa => pa.Professor)
                 .WithMany(p => p.Applies)
-                .HasForeignKey(pa => pa.ProfessionId);
+                .HasForeignKey(pa => pa.ProfessorId);
         }
 
         public DbSet<ProfessorApply> ProfessorApplies { set; get; }
@@ -28,7 +28,7 @@ namespace Karenia.Visby.Professors.Models
 
     public class ProfessorApply
     {
-        public int ProfessionApplyId { set; get; }
+        public int ProfessorApplyId { set; get; }
         public DateTime ApplyDate { set; get; }
         public int ApplyState { set; get; }
         [MaxLength(128)] public string Name { set; get; }
@@ -36,15 +36,14 @@ namespace Karenia.Visby.Professors.Models
         [MaxLength(128)] public string Institution { set; get; }
         [MaxLength(2048)] public string CertificateDocument { set; get; }
 
-        // FK_APPLY_PROFESSION
-        public int ProfessionId { set; get; }
+        // FK_APPLY_PROFESSOR
+        public int ProfessorId { set; get; }
         public Professor Professor { set; get; }
     }
 
     public class Professor
     {
-        public int ProfessionId { set; get; }
-        public int UserId { set; get; }
+        public int ProfessorId { set; get; }
         [MaxLength(128)] public string Name { set; get; }
         [MaxLength(128)] public string Contract { set; get; }
         [MaxLength(128)] public string Institution { set; get; }
@@ -52,5 +51,8 @@ namespace Karenia.Visby.Professors.Models
 
         // FK_APPLY_PROFESSION
         public List<ProfessorApply> Applies { set; get; }
+
+        // 跨库无法建外键
+        public int UserId { set; get; }
     }
 }

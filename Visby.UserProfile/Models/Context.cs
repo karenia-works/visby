@@ -27,7 +27,7 @@ namespace Karenia.Visby.UserProfile.Models
 
             // FOLLOW
             modelBuilder.Entity<UserFollow>()
-                .HasKey(uf => new {uf.FollowerId, uf.FollowingId});
+                .HasKey(uf => new { uf.FollowerId, uf.FollowingId });
             modelBuilder.Entity<UserFollow>()
                 .HasOne(uf => uf.Following)
                 .WithMany(fg => fg.Followings)
@@ -64,5 +64,11 @@ namespace Karenia.Visby.UserProfile.Models
         public int FollowingId { set; get; }
         public User Following { set; get; }
         public DateTime FollowDate { set; get; }
+    }
+    public class Purchase
+    {
+        public int PurchaseId { get; set; }
+        public int UserId { get; set; }
+        public int PaperId { get; set; }
     }
 }

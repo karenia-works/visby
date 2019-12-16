@@ -10,18 +10,18 @@ namespace Karenia.Visby.Account.Services
 {
     public class AccountStore : IResourceOwnerPasswordValidator
     {
-        public AccountServer _accountserver { get; set; }
+        public AccountService _accountservice { get; set; }
 
-        public AccountStore(AccountServer accountServer)
+        public AccountStore(AccountService accountService)
         {
-            _accountserver = accountServer;
+            _accountservice = accountService;
         }
 
 
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            var result = await _accountserver.FindLoginInfo(context.UserName);
-            if (result == null || !result.checkPassword(context.Password))
+            var result = await _accountservice.FindLoginInfo(context.UserName);
+            if (result == null || result.EncryptedPassword != context.Password)
             {
                 context.Result = new GrantValidationResult(
                     TokenRequestErrors.InvalidGrant,
@@ -35,7 +35,7 @@ namespace Karenia.Visby.Account.Services
                     authenticationMethod: "custom",
                     claims: new Claim[]
                     {
-                        new Claim("id", result.Email),
+                        new Claim("Name", result.Email),
                         new Claim("Role", result.Type.ToString())
                     }
                 );

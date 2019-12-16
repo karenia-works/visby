@@ -5,9 +5,9 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.0-buster AS build
 WORKDIR /src
-COPY ["Visby.Account.csproj", "Visby.Account/"]
+COPY ["Visby.Account/Visby.Account.csproj", "Visby.Account/"]
 RUN dotnet restore "Visby.Account/Visby.Account.csproj"
-COPY . Visby.Account/
+COPY . .
 WORKDIR "/src/Visby.Account"
 RUN dotnet build "Visby.Account.csproj" -c Release -o /app/build -v m
 

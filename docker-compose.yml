@@ -1,38 +1,49 @@
 version: "3.3"
 services:
   visby-account:
-    build: "Visby.Account/"
+    build:
+      context: "."
+      dockerfile: "./account.Dockerfile"
     ports:
       - 6655:80
-    depends-on:
-      - account-db
+    #  depends_on:
+    #    - account-db
     networks:
       - account
+      - papers
 
   account-db:
     image: postgres:12
     volumes:
       - account-db-volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123456
     ports:
-      - "5432"
+      - 54321:5432
     networks:
       - account
-
-  visby-papers:
-    build: "Visby.Papers/"
-    ports:
-      - 6655:80
-    depends-on:
-      - papers-db
-    networks:
-      - papers
-
+  # visby-papers:
+  #   build:
+  #     context: "."
+  #     dockerfile: "./papers.Dockerfile"
+  #   ports:
+  #     - 6656:80
+  #   #  depends_on:
+  #   #   - papers-db
+  #   networks:
+  #     - papers
+  #     - account
   papers-db:
     image: postgres:12
     volumes:
       - papers-db-volume:/var/lib/postgresql/data
+      - ~/share:/usr/lib/postgresql/share
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123456
     ports:
-      - "5432"
+      - 54322:5432
     networks:
       - papers
 

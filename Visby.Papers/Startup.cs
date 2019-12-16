@@ -14,6 +14,8 @@ using Karenia.Visby.Papers.Models;
 using Microsoft.EntityFrameworkCore;
 using IdentityServer4;
 using IdentityServer4.Services;
+using Karenia.Visby.Papers.Services;
+using Microsoft.IdentityModel.Logging;
 namespace Karenia.Visby.Papers
 {
     public class Startup
@@ -36,6 +38,19 @@ namespace Karenia.Visby.Papers
                     connectionEnvironment
                 )
             );
+            services.AddAuthentication("test").AddIdentityServerAuthentication("test", option =>
+            {//TODO change into real ip
+                option.Authority = "visby-account";
+                //option.Audience = "api1";
+                //option.MetadataAddress = "visby_visby-account_1" + "/.well-known/openid-configuration";
+                option.ApiName = "api1";
+                option.ApiSecret = "client";
+                option.RequireHttpsMetadata = false;
+
+                //option.Configuration = new Microsoft.IdentityModel.Protocols.OpenIdConnect.OpenIdConnectConfiguration();
+            }
+           );
+
             services.AddAuthorization(option =>
             {
                 option.AddPolicy(
@@ -54,20 +69,15 @@ namespace Karenia.Visby.Papers
                 option.AddPolicy(
                     "adminApi", policy =>
                     {
+                        policy.AddAuthenticationSchemes("test");
                         policy.RequireAuthenticatedUser();
                         policy.RequireClaim("Role", "admin");
                     }
                 );
             }
+            );
 
-            );
-            services.AddAuthentication().AddIdentityServerAuthentication(option =>
-            {//TODO change into real ip
-                option.Authority = "localhost:6060";
-                option.ApiName = "api1";
-                option.ApiSecret = "client";
-            }
-            );
+            services.AddSingleton<PaperService>();
             services.AddControllers();
         }
 
@@ -78,10 +88,11 @@ namespace Karenia.Visby.Papers
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            IdentityModelEventSource.ShowPII = true;
             app.UseRouting();
             app.UseAuthentication();
 
+            IdentityModelEventSource.ShowPII = true;
             app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

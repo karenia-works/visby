@@ -29,22 +29,19 @@ namespace Karenia.Visby.Account
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string connectionEnvironment =
-                Environment.GetEnvironmentVariable(Configuration.GetConnectionString("ConnectionEnvironment"));
 
             services.AddDbContext<AccountContext>(
-                options => options.UseNpgsql(
-                    connectionEnvironment
-                )
+                options => options.UseNpgsql("Host=visby_account-db_1;Username=postgres;Password=postgres;Database=account")
             );
-            services.AddSingleton<AccountServer>();
 
+            services.AddScoped<AccountService>();
+            services.AddScoped<AccountStore>();
             services.AddControllers();
-            services.AddIdentityServer()
+            services.AddIdentityServer().AddJwtBearerClientAuthentication()
                 .AddDeveloperSigningCredential()
                 .AddInMemoryClients(Config.GetClients())
                 .AddInMemoryApiResources(Config.GetApiResources())
-                .AddResourceOwnerValidator<AccountStore>();
+            .AddResourceOwnerValidator<AccountStore>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,7 +54,6 @@ namespace Karenia.Visby.Account
 
             app.UseRouting();
             app.UseIdentityServer();
-            app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

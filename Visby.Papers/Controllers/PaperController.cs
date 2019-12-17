@@ -33,9 +33,9 @@ namespace Karenia.Visby.Papers.Controllers
             return new Result<Paper>(200, "Ok", res);
         }
         [HttpGet()]
-        public async Task<ResultList<Paper>> search(
-            List<string> keyword = null, string summary = "", string startTime = "",
-            string endTime = "", List<string> author = null, int skip = 0, int take = 0
+        public async Task<ResultList<Paper>> search([FromQuery]
+            List<string> keyword = null, [FromQuery]string summary = "", [FromQuery]string startTime = "",
+            [FromQuery]string endTime = "", [FromQuery] List<string> author = null, [FromQuery] int skip = 0, [FromQuery]int take = 10
             )
         {
             try

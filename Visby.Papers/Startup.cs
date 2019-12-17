@@ -34,12 +34,12 @@ namespace Karenia.Visby.Papers
 
             services.AddDbContext<PaperContext>(
                 options => options.UseNpgsql(
-                    "Host=10.251.252.9;Port=54322;Username=root;Password=123456;Database=postgres"
+                    "Host=visby_papers-db_1;Username=root;Password=123456;Database=postgres"
                 )
             );
             services.AddAuthentication(IdentityServerConstants.AccessTokenAudience).AddIdentityServerAuthentication(IdentityServerConstants.AccessTokenAudience, option =>
             {//TODO change into real ip
-                option.Authority = "http://10.251.252.9:6655";
+                option.Authority = "http://visby_visby-account_1";
                 //option.Audience = "api1";
                 //option.MetadataAddress = "visby_visby-account_1" + "/.well-known/openid-configuration";
                 option.ApiName = "scope";

@@ -69,9 +69,7 @@ services:
       - all
 
   professors-db:
-    build:
-      context: "."
-      dockerfile: "./paper-db.Dockerfile"
+    image: postgres:12
     volumes:
       - papers-db-volume:/var/lib/postgresql/data
 

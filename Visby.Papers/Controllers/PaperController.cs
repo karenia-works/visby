@@ -22,15 +22,66 @@ namespace Karenia.Visby.Papers.Controllers
         {
             _service = service;
         }
-        [Authorize("adminApi")]
-        [HttpGet("test")]
-        public Task<List<Paper>> test()
+        [HttpGet("{id:regex([[0-9a-fA-F]]{{24}})}")]
+        public async Task<Result<Paper>> getPaper(int id)
         {
-
-            return _service.GetPaperSummery("计算机网络");
-
+            var res = await _service.GetPaper(id);
+            if (res == null)
+            {
+                return new Result<Paper>(400, "paper not exsit", null);
+            }
+            return new Result<Paper>(200, "Ok", res);
         }
-        []
+        [HttpGet()]
+        public async Task<ResultList<Paper>> search(
+            List<string> keyword = null, string summary = "", string startTime = "",
+            string endTime = "", List<string> author = null, int skip = 0, int take = 0
+            )
+        {
+            try
+            {
+                var sql = _service.startSql();
+                if (keyword != null)
+                {
+                    _service.PaperKeyword(sql, keyword);
+                }
+                if (summary != "")
+                {
+                    _service.PaperSummery(sql, summary);
+                }
+                if (startTime != "" && endTime != "")
+                {
+                    _service.PaperDate(sql, DateTime.Parse(startTime), DateTime.Parse(endTime));
+                }
+                if (author != null)
+                {
+                    _service.PaperAuthor(sql, author);
+                }
+                var ps = await _service.GetSqlResult(sql, skip, take);
+                bool hasnext = true;
+                if (ps.Count == 0)
+                {
+                    hasnext = false;
+                }
+                return new ResultList<Paper>(200, "success", ps, hasnext, ps.Count, "");
+            }
+            catch (Exception e)
+            {
+                return new ResultList<Paper>(400, e.Message, null, false, 0, "");
+            }
+        }
+        [Authorize("professorApi")]
+        [HttpPost]
+        public async Task<Result<Paper>> insertPaper([FromBody]Paper paper)
+        {
+            paper.PaperId = 0;
+            var res = await _service.insertPaper(paper);
+            if (res == null)
+            {
+                return new Result<Paper>(400, "paper exsit", null);
+            }
+            return new Result<Paper>(200, "O~K", res);
+        }
 
     }
 }

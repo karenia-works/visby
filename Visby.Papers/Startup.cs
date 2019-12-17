@@ -55,14 +55,16 @@ namespace Karenia.Visby.Papers
                 option.AddPolicy(
                     "professorApi", policy =>
                     {
+                        policy.AddAuthenticationSchemes(IdentityServerConstants.AccessTokenAudience);
                         policy.RequireAuthenticatedUser();
-                        policy.RequireClaim("Role", "professor");
+                        policy.RequireClaim("Role", "1");
                     });
                 option.AddPolicy(
                     "userProfileApi", policy =>
                     {
+                        policy.AddAuthenticationSchemes(IdentityServerConstants.AccessTokenAudience);
                         policy.RequireAuthenticatedUser();
-                        policy.RequireClaim("Role", "userProfile");
+                        policy.RequireClaim("Role", "0");
                     }
                 );
                 option.AddPolicy(

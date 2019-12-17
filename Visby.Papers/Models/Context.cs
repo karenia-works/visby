@@ -35,7 +35,7 @@ namespace Karenia.Visby.Papers.Models
         public DateTime Date { get; set; }
         public List<String> Keywords { get; set; }
         public int Quote { get; set; }
-        
+
         // 本站收录的专家
         // 跨库无法建外键
         public List<int> LocalAuthorIds { set; get; }

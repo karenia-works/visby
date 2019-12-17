@@ -30,20 +30,19 @@ namespace Karenia.Visby.Papers
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string connectionEnvironment =
-                Environment.GetEnvironmentVariable(Configuration.GetConnectionString("ConnectionEnvironment"));
+
 
             services.AddDbContext<PaperContext>(
                 options => options.UseNpgsql(
-                    connectionEnvironment
+                    "Host=10.251.252.9;Port=54322;Username=root;Password=123456;Database=postgres"
                 )
             );
-            services.AddAuthentication("test").AddIdentityServerAuthentication("test", option =>
+            services.AddAuthentication(IdentityServerConstants.AccessTokenAudience).AddIdentityServerAuthentication(IdentityServerConstants.AccessTokenAudience, option =>
             {//TODO change into real ip
-                option.Authority = "visby-account";
+                option.Authority = "http://10.251.252.9:6655";
                 //option.Audience = "api1";
                 //option.MetadataAddress = "visby_visby-account_1" + "/.well-known/openid-configuration";
-                option.ApiName = "api1";
+                option.ApiName = "scope";
                 option.ApiSecret = "client";
                 option.RequireHttpsMetadata = false;
 
@@ -69,15 +68,15 @@ namespace Karenia.Visby.Papers
                 option.AddPolicy(
                     "adminApi", policy =>
                     {
-                        policy.AddAuthenticationSchemes("test");
+                        policy.AddAuthenticationSchemes(IdentityServerConstants.AccessTokenAudience);
                         policy.RequireAuthenticatedUser();
-                        policy.RequireClaim("Role", "admin");
+                        policy.RequireClaim("Role", "2");
                     }
                 );
             }
             );
 
-            services.AddSingleton<PaperService>();
+            services.AddScoped<PaperService>();
             services.AddControllers();
         }
 

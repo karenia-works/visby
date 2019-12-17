@@ -30,10 +30,14 @@ namespace Karenia.Visby.Papers.Services
                 .ToListAsync();
             return ps;
         }
+        public List<Paper> testdata()
+        {
+            return _context.Papers.AsQueryable().ToList();
+        }
 
         public async Task<List<Paper>> GetPaperAuthor(List<String> authors)
         {
-            var ps = await _context.Papers.FromSqlRaw("select * from Papers where Author <@ '{0}'", authors)
+            var ps = await _context.Papers.FromSqlRaw("select * from public.\"Papers\" where \"Authors\" @> array[{0}]", authors)
                 .ToListAsync();
             return ps;
         }
@@ -49,7 +53,7 @@ namespace Karenia.Visby.Papers.Services
         {
             var ps = await _context.Papers
                 .FromSqlRaw(
-                    "select *,MAX(similarity({0},Title),similarity({0},summary)) As sml from paper where (summary % '{0}') or (summary%{0}) order by sml,quote DESC",
+                   " select * from \"Papers\" where to_tsvector('jiebaqry', \"Summary\") @@ to_tsquery('jiebaqry', {0}) ",
                     tgt).ToListAsync();
             return ps;
         }

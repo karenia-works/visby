@@ -24,11 +24,13 @@ namespace Karenia.Visby.Papers.Controllers
         }
         [Authorize("adminApi")]
         [HttpGet("test")]
-        public string test()
+        public Task<List<Paper>> test()
         {
-            return "hello";
-        }
 
+            return _service.GetPaperSummery("计算机网络");
+
+        }
+        []
 
     }
 }

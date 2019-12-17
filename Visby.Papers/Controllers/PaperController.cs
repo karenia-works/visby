@@ -83,5 +83,6 @@ namespace Karenia.Visby.Papers.Controllers
             return new Result<Paper>(200, "O~K", res);
         }
 
+
     }
 }

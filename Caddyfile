@@ -1,0 +1,36 @@
+:8080
+
+reverse_proxy /api/account {
+	to visby-account:80
+	transport http {
+		read_buffer 4096
+	}
+}
+
+reverse_proxy /api/paper {
+	to visby-paper:80
+	transport http {
+		read_buffer 4096
+	}
+}
+
+reverse_proxy /api/professor {
+	to visby-professor:80
+	transport http {
+		read_buffer 4096
+	}
+}
+
+reverse_proxy /api/user {
+	to visby-user:80
+	transport http {
+		read_buffer 4096
+	}
+}
+
+reverse_proxy /connect {
+	to visby-account:80
+	transport http {
+		read_buffer 4096
+	}
+}

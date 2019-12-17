@@ -1,58 +1,117 @@
 version: "3.3"
 services:
-  # visby-account:
-  #   build:
-  #     context: "."
-  #     dockerfile: "./account.Dockerfile"
-  #   ports:
-  #     - 6655:80
-  #   #  depends_on:
-  #   #    - account-db
-  #   networks:
-  #     - account
-  #     - papers
+  # Caddy reverse proxy
+  caddy:
+    build:
+      context: "."
+      dockerfile: "caddy.Dockerfile"
+    volumes:
+      - .:/app
 
-  # account-db:
-  #   image: postgres:12
-  #   volumes:
-  #     - account-db-volume:/var/lib/postgresql/data
-  #   environment:
-  #     POSTGRES_USER: root
-  #     POSTGRES_PASSWORD: 123456
-  #   ports:
-  #     - 54321:5432
-  #   networks:
-  #     - account
-  # visby-papers:
-  #   build:
-  #     context: "."
-  #     dockerfile: "./papers.Dockerfile"
-  #   ports:
-  #     - 6656:80
-  #   #  depends_on:
-  #   #   - papers-db
-  #   networks:
-  #     - papers
-  #     - account
+  visby-account:
+    build:
+      context: "."
+      dockerfile: "./account.Dockerfile"
+    ports:
+      - 6655:80
+    depends_on:
+      - account-db
+    networks:
+      - all
+
+  account-db:
+    image: postgres:12
+    volumes:
+      - account-db-volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - 54321:5432
+    networks:
+      - all
+
+  visby-papers:
+    build:
+      context: "."
+      dockerfile: "./papers.Dockerfile"
+    ports:
+      - 6656:80
+    #  depends_on:
+    #   - papers-db
+    networks:
+      - all
+
   papers-db:
     build:
-     context: "."
-     dockerfile: "./paper-db.Dockerfile"
-    volumes:
-      - papers-db-volume:/var/lib/postgresql/dat
-      
+      context: "."
+      dockerfile: "./pgsql-jieba.Dockerfile"
+    # volumes:
+    #   - papers-db-volume:/var/lib/postgresql/data
+
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: 123456
     ports:
       - 54322:5432
     networks:
-      - papers
+      - all
+
+  visby-professors:
+    build:
+      context: "."
+      dockerfile: "./professors.Dockerfile"
+    ports:
+      - 6657:80
+    depends_on:
+      - professors-db
+    networks:
+      - all
+
+  professors-db:
+    build:
+      context: "."
+      dockerfile: "./paper-db.Dockerfile"
+    volumes:
+      - papers-db-volume:/var/lib/postgresql/data
+
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - 54323:5432
+    networks:
+      - all
+
+  visby-user-profile:
+    build:
+      context: "."
+      dockerfile: "./user-profile.Dockerfile"
+    ports:
+      - 6658:80
+    depends_on:
+      - user-profile-db
+    networks:
+      - all
+
+  user-profile-db:
+    image: postgres:12
+    volumes:
+      - user-profile-db-volume:/var/lib/postgresql/data
+
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - 54324:5432
+    networks:
+      - all
 
 volumes:
   account-db-volume:
   papers-db-volume:
+  professors-db-volume:
+  user-profile-db-volume:
 
 networks:
-  account:
-  papers:
+  all:

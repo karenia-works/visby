@@ -30,7 +30,7 @@ namespace Karenia.Visby.Papers.Controllers
             return _service.GetPaperSummery("计算机网络");
 
         }
-        []
+        
 
     }
 }

@@ -2,7 +2,7 @@
   "apps": {
     "http": {
       "http_port": 80,
-      "https_port": 443,
+      // "https_port": 443,
       "servers": {
         "srv0": {
           "listen": [":2015"],

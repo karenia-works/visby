@@ -9,4 +9,4 @@ RUN chmod 777 /usr/bin/caddy
 ENV PATH=$PATH:/usr/bin
 RUN mkdir /app
 WORKDIR /app
-ENTRYPOINT [ "/usr/bin/caddy", "start" ,"--config", "caddy.json"]
+ENTRYPOINT [ "/usr/bin/caddy", "run", "--config", "Caddyfile", "--adapter", "caddyfile"]

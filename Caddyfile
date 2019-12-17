@@ -1,0 +1,16 @@
+{
+    http_port 80
+    experimental_http3
+}
+
+reverse_proxy /api/account visby-account:80
+
+reverse_proxy /api/paper visby-paper:80
+
+reverse_proxy /api/professor visby-professor:80
+
+reverse_proxy /api/user visby-user:80
+
+reverse_proxy /connect visby-account:80
+
+

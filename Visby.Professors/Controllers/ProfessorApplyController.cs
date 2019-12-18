@@ -24,11 +24,22 @@ namespace Karenia.Visby.Professors.Controllers
             _service = service;
         }
 
-        // GET api/professor?offset={offset}&limit={limit}&keyword={keyword}
+        // GET api/apply?offset={offset}&limit={limit}&id={professor id}
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery] int offset, [FromQuery] int limit, [FromQuery] int id)
         {
-            // TODO: impl it
+            if (limit == 0)
+            {
+                limit = 20;
+            }
+
+            if (id != 0)
+            {
+                var res = await _service.GetApplies(id, limit, offset);
+                bool hasNext = (res.Item1.Count != limit);
+                return Ok(new ResultList<ProfessorApply>(200, null, res.Item1, hasNext, res.Item2, ""));
+            }
+
             return NotFound();
         }
 
@@ -47,7 +58,7 @@ namespace Karenia.Visby.Professors.Controllers
             result = new Result<ProfessorApply>(200, null, apply);
             return Ok(result);
         }
-        
+
         // POST api/professor
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] ProfessorApply apply)
@@ -57,7 +68,7 @@ namespace Karenia.Visby.Professors.Controllers
                 return Ok(result.Item2);
             return BadRequest(result.Item2);
         }
-        
+
         // PATCH api/article/{id}
         // 传值见 https://www.cnblogs.com/lwqlun/p/10433615.html
         // 无返回值

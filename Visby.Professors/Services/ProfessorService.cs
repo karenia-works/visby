@@ -36,21 +36,20 @@ namespace Karenia.Visby.Professors.Services
                 .ToListAsync();
         }
 
-        public async Task<Tuple<List<Professor>, int, bool>> GetProfessors(string keyword, int limit, int offset)
+        public async Task<Tuple<List<Professor>, int>> GetProfessors(string keyword, int limit, int offset)
         {
             var allResult = await _context.Professors
                 .Where(p => p.Institution.Contains(keyword) || p.Name.Contains(keyword))
                 .ToListAsync();
             var totalCount = allResult.Count;
-            bool overflow = offset > totalCount;
-            if (overflow)
+            if (offset > totalCount)
             {
-                return new Tuple<List<Professor>, int, bool>(null, totalCount, overflow);
+                return new Tuple<List<Professor>, int>(null, totalCount);
             }
 
             limit = offset + limit > totalCount ? totalCount - offset : limit;
             var subList = allResult.GetRange(offset, limit);
-            return new Tuple<List<Professor>, int, bool>(subList, totalCount, false);
+            return new Tuple<List<Professor>, int>(subList, totalCount);
         }
 
         public async Task<Tuple<bool, Result<Professor>>> CreateProfessor(Professor professor)

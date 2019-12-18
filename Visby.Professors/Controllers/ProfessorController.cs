@@ -34,8 +34,6 @@ namespace Karenia.Visby.Professors.Controllers
             {
                 var res = await _service.GetProfessors(keyword, limit, offset);
                 bool hasNext = (res.Item1.Count != limit);
-                if (res.Item3)
-                    return BadRequest(new ResultList<Professor>(404, "Not Found", null, false, res.Item2, ""));
                 return Ok(new ResultList<Professor>(200, null, res.Item1, hasNext, res.Item2, ""));
             }
 

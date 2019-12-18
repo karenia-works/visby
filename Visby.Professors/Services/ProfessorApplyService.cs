@@ -37,6 +37,19 @@ namespace Karenia.Visby.Professors.Services
                 .ToListAsync();
         }
 
+        public async Task<Tuple<List<ProfessorApply>, int>> GetApplies(int id, int limit, int offset)
+        {
+            var allResult = await GetAppliesByProfessorId(id);
+            int totalCount = allResult.Count;
+            if (offset > totalCount)
+            {
+                return new Tuple<List<ProfessorApply>, int>(null, totalCount);
+            }
+            limit = offset + limit > totalCount ? totalCount - offset : limit;
+            var subList = allResult.GetRange(offset, limit);
+            return new Tuple<List<ProfessorApply>, int>(subList, totalCount);
+        }
+
         public async Task<Tuple<bool, Result<ProfessorApply>>> CreateApply(ProfessorApply apply)
         {
             // 传入的字段并不会全，所以要重新初始化一次

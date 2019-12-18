@@ -56,5 +56,7 @@ namespace Karenia.Visby.Account
             app.UseIdentityServer();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
+
+
     }
 }

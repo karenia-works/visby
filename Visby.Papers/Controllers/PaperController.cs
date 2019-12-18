@@ -22,7 +22,7 @@ namespace Karenia.Visby.Papers.Controllers
         {
             _service = service;
         }
-        [HttpGet("{id:regex([0-9])}")]
+        [HttpGet("{id:regex([[0-9]])}")]
         public async Task<Result<Paper>> getPaper(int id)
         {
             var res = await _service.GetPaper(id);
@@ -82,7 +82,11 @@ namespace Karenia.Visby.Papers.Controllers
             }
             return new Result<Paper>(200, "O~K", res);
         }
-
+        [HttpGet("/test")]
+        public string test()
+        {
+            return "test";
+        }
 
     }
 }

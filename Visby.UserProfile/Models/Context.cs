@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 using Karenia.Visby.UserProfile.Models;
+using Karenia.Visby.Papers.Models;
 
 namespace Karenia.Visby.UserProfile.Models
 {
@@ -52,6 +53,12 @@ namespace Karenia.Visby.UserProfile.Models
         // FK_USER_USER_FOLLOW
         public List<UserFollow> Followers { set; get; }
         public List<UserFollow> Followings { set; get; }
+
+        //用户的头像
+        public string Avatar { set; get;}
+
+        //最近下载列表
+        public List<string> DownloadList { set; get;}
     }
 
 

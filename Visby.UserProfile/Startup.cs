@@ -12,6 +12,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Karenia.Visby.UserProfile.Models;
+using Karenia.Visby.UserProfile.Services;
+using Karenia.Visby.Papers.Models;
+using Karenia.Visby.Papers.Services;
+
 
 namespace Karenia.Visby.UserProfile
 {

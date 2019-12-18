@@ -33,7 +33,7 @@ namespace Karenia.Visby.Professors
 
             services.AddDbContext<ProfessorContext>(
                 options => options.UseNpgsql(
-                    connectionEnvironment
+                    "Host=visby_professors-db_1;Username=root;Password=123456;Database=account"
                 )
             );
 

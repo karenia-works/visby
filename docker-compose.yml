@@ -9,6 +9,12 @@ services:
     - ./nginxconf:/etc/nginx/conf.d 
     networks:
     - all  
+    depends_on:
+      - visby-account
+      - visby-papers
+      - visby-professors
+      - visby-user-profile
+
   visby-account:
     build:
       context: "."
@@ -68,6 +74,8 @@ services:
       - professors-db
     networks:
       - all
+    environment:
+      - PaperContext="Host=visby_professors-db_1;Username=postgres;Password=postgres;Database=account"
 
   professors-db:
     image: postgres:12
@@ -92,6 +100,8 @@ services:
       - user-profile-db
     networks:
       - all
+    environment:
+      - PaperContext="Host=visby_user-profile-db_1;Username=postgres;Password=postgres;Database=account"
 
   user-profile-db:
     image: postgres:12

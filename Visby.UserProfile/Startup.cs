@@ -70,6 +70,7 @@ namespace Karenia.Visby.UserProfile
                 option.ApiSecret = "client";
             }
             );
+            services.AddCors();
             services.AddControllers();
         }
 

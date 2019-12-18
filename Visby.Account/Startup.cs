@@ -34,6 +34,8 @@ namespace Karenia.Visby.Account
                 options => options.UseNpgsql("Host=visby_account-db_1;Username=postgres;Password=postgres;Database=account")
             );
 
+            services.BuildServiceProvider().GetService<AccountContext>().Database.Migrate();
+
             services.AddScoped<AccountService>();
             services.AddScoped<AccountStore>();
             services.AddControllers();

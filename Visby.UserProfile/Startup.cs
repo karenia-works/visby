@@ -35,6 +35,8 @@ namespace Karenia.Visby.UserProfile
                     connectionEnvironment
                 )
             );
+
+            services.BuildServiceProvider().GetService<UserProfileContext>().Database.Migrate();
             services.AddAuthorization(option =>
             {
                 option.AddPolicy(

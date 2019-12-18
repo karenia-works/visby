@@ -36,9 +36,12 @@ namespace Karenia.Visby.UserProfile
 
             services.AddDbContext<UserProfileContext>(
                 options => options.UseNpgsql(
-                    connectionEnvironment
+                    "Host=visby_user-profile-db_1;Username=root;Password=123456;Database=account"
+
                 )
             );
+
+            services.BuildServiceProvider().GetService<UserProfileContext>().Database.Migrate();
             services.AddAuthorization(option =>
             {
                 option.AddPolicy(
@@ -71,6 +74,7 @@ namespace Karenia.Visby.UserProfile
                 option.ApiSecret = "client";
             }
             );
+            services.AddCors();
             services.AddControllers();
         }
 

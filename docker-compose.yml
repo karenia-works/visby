@@ -1,15 +1,19 @@
 version: "3.3"
 services:
-  # Caddy reverse proxy
-  caddy:
-    build:
-      context: "."
-      dockerfile: "caddy.Dockerfile"
+  nginx:
+    image: nginx
     ports:
       - 80:80
       - 443:443
     volumes:
-      - .:/app
+    - ./nginxconf:/etc/nginx/conf.d 
+    networks:
+    - all  
+    depends_on:
+      - visby-account
+      - visby-papers
+      - visby-professors
+      - visby-user-profile
 
   visby-account:
     build:
@@ -70,6 +74,8 @@ services:
       - professors-db
     networks:
       - all
+    environment:
+      - PaperContext="Host=visby_professors-db_1;Username=postgres;Password=postgres;Database=account"
 
   professors-db:
     image: postgres:12
@@ -94,6 +100,8 @@ services:
       - user-profile-db
     networks:
       - all
+    environment:
+      - PaperContext="Host=visby_user-profile-db_1;Username=postgres;Password=postgres;Database=account"
 
   user-profile-db:
     image: postgres:12

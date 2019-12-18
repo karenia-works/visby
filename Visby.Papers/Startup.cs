@@ -37,6 +37,9 @@ namespace Karenia.Visby.Papers
                     "Host=visby_papers-db_1;Username=root;Password=123456;Database=postgres"
                 )
             );
+
+            services.BuildServiceProvider().GetService<PaperContext>().Database.Migrate();
+
             services.AddAuthentication(IdentityServerConstants.AccessTokenAudience).AddIdentityServerAuthentication(IdentityServerConstants.AccessTokenAudience, option =>
             {//TODO change into real ip
                 option.Authority = "http://visby_visby-account_1";
@@ -77,7 +80,7 @@ namespace Karenia.Visby.Papers
                 );
             }
             );
-
+            services.AddCors();
             services.AddScoped<PaperService>();
             services.AddControllers();
         }

@@ -1,16 +1,14 @@
 version: "3.3"
 services:
-  # Caddy reverse proxy
-  caddy:
-    build:
-      context: "."
-      dockerfile: "caddy.Dockerfile"
+  nginx:
+    image: nginx
     ports:
       - 80:80
       - 443:443
     volumes:
-      - .:/app
-
+    - ./nginxconf:/etc/nginx/conf.d 
+    networks:
+    - all  
   visby-account:
     build:
       context: "."

@@ -44,8 +44,8 @@ services:
       dockerfile: "./papers.Dockerfile"
     ports:
       - 6656:80
-    #  depends_on:
-    #   - papers-db
+    depends_on:
+      - papers-db
     networks:
       - all
 

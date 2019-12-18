@@ -80,7 +80,7 @@ namespace Karenia.Visby.Papers
                 );
             }
             );
-
+            services.AddCors();
             services.AddScoped<PaperService>();
             services.AddControllers();
         }

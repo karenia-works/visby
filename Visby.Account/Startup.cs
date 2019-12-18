@@ -35,7 +35,7 @@ namespace Karenia.Visby.Account
             );
 
             services.BuildServiceProvider().GetService<AccountContext>().Database.Migrate();
-
+            services.AddCors();
             services.AddScoped<AccountService>();
             services.AddScoped<AccountStore>();
             services.AddControllers();

@@ -75,7 +75,7 @@ namespace Karenia.Visby.Professors
                     option.ApiSecret = "client";
                 }
             );
-
+            services.AddCors();
             services.AddControllers();
         }
 

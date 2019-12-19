@@ -11,6 +11,7 @@ namespace Karenia.Visby.Professors.Models
     {
         public ProfessorContext(DbContextOptions options) : base(options)
         {
+            // this.Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

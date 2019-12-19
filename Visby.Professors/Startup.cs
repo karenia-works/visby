@@ -62,10 +62,10 @@ namespace Karenia.Visby.Professors
                 }
             );
 
-            services.BuildServiceProvider().GetService<ProfessorContext>().Database.Migrate();
+            // services.BuildServiceProvider().GetService<ProfessorContext>().Database.Migrate();
 
-            services.AddSingleton<ProfessorService>();
-            services.AddSingleton<ProfessorApplyService>();
+            services.AddScoped<ProfessorService>();
+            services.AddScoped<ProfessorApplyService>();
 
             services.AddAuthentication().AddIdentityServerAuthentication(option =>
                 {

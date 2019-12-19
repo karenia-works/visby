@@ -23,9 +23,20 @@ namespace Karenia.Visby.Professors.Controllers
 
         // GET api/professor?offset={offset}&limit={limit}&keyword={keyword}
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery] int offset, [FromQuery] int limit, [FromQuery] string keyword)
         {
-            // TODO: impl it
+            if (limit == 0)
+            {
+                limit = 20;
+            }
+
+            if (keyword != null)
+            {
+                var res = await _service.GetProfessors(keyword, limit, offset);
+                bool hasNext = (res.Item1.Count != limit);
+                return Ok(new ResultList<Professor>(200, null, res.Item1, hasNext, res.Item2, ""));
+            }
+
             return NotFound();
         }
 

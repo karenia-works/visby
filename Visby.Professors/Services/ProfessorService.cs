@@ -36,6 +36,22 @@ namespace Karenia.Visby.Professors.Services
                 .ToListAsync();
         }
 
+        public async Task<Tuple<List<Professor>, int>> GetProfessors(string keyword, int limit, int offset)
+        {
+            var allResult = await _context.Professors
+                .Where(p => p.Institution.Contains(keyword) || p.Name.Contains(keyword))
+                .ToListAsync();
+            var totalCount = allResult.Count;
+            if (offset > totalCount)
+            {
+                return new Tuple<List<Professor>, int>(null, totalCount);
+            }
+
+            limit = offset + limit > totalCount ? totalCount - offset : limit;
+            var subList = allResult.GetRange(offset, limit);
+            return new Tuple<List<Professor>, int>(subList, totalCount);
+        }
+
         public async Task<Tuple<bool, Result<Professor>>> CreateProfessor(Professor professor)
         {
             // 传入的字段并不会全，所以要重新初始化一次

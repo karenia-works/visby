@@ -40,25 +40,42 @@ namespace Karenia.Visby.Papers.Controllers
         {
             try
             {
-                var sql = _service.startSql();
-                if (keyword != null)
-                {
-                    _service.PaperKeyword(sql, keyword);
-                }
+                var sql = _service._context.Papers.AsQueryable();
+
                 if (summary != null)
                 {
-                    _service.PaperSummery(sql, summary);
+                    sql = _service.PaperSummery(sql, summary);
                 }
                 if (startTime != null && endTime != null)
                 {
-                    _service.PaperDate(sql, DateTime.Parse(startTime), DateTime.Parse(endTime));
+                    sql = _service.PaperDate(sql, DateTime.Parse(startTime), DateTime.Parse(endTime));
                 }
-                if (author != null)
-                {
-                    _service.PaperAuthor(sql, author);
-                }
-                var ps = await _service.GetSqlResult(sql, skip, take);
                 bool hasnext = true;
+                if (keyword.Count != 0 || author.Count != 0)
+                {
+
+                    var newsql = sql.ToAsyncEnumerable();
+
+                    if (keyword.Count != 0)
+                    {
+
+                        newsql = _service.PaperKeyword(newsql, keyword);
+                    }
+                    if (author.Count != 0)
+                    {
+
+                        newsql = _service.PaperAuthor(newsql, author);
+                    }
+                    var eps = await _service.GetSqlResult(newsql, skip, take);
+                    if (eps.Count == 0)
+                    {
+                        hasnext = false;
+                    }
+                    return new ResultList<Paper>(200, "success", eps, hasnext, eps.Count, "");
+                }
+
+                var ps = await _service.GetSqlResult(sql, skip, take);
+
                 if (ps.Count == 0)
                 {
                     hasnext = false;
@@ -82,10 +99,14 @@ namespace Karenia.Visby.Papers.Controllers
             }
             return new Result<Paper>(200, "O~K", res);
         }
-        [HttpGet("/test")]
-        public string test()
+        [HttpGet("test")]
+        public async Task<ResultList<Paper>> test()
         {
-            return "test";
+            // var sql = _service.startSql();
+            // sql = _service.PaperSummery(sql, "燃烧");
+            // var res = await _service.GetSqlResult(sql, 0, 10);
+            var res = await _service.test();
+            return new ResultList<Paper>(200, "O~K", res, false, res.Count, null);
         }
 
     }

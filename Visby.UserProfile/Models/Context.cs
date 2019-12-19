@@ -58,7 +58,7 @@ namespace Karenia.Visby.UserProfile.Models
         public string Avatar { set; get;}
 
         //最近下载列表
-        public List<string> DownloadList { set; get;}
+        public List<int> DownloadList { set; get;}
     }
 
 

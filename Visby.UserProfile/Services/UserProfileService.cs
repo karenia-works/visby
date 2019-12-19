@@ -125,6 +125,19 @@ namespace Karenia.Visby.UserProfile.Services
             return result;
         }
 
+        public async Task<List<int>> GetDownLoadList(string id_in){
+            int user_id = Convert.ToInt32(id_in);
+            if(!_context.UserProfiles.Any(up => up.UserId == user_id)){
+                return null;
+            }
+            var query = await _context.UserProfiles.Where(up => up.UserId == user_id).FirstOrDefaultAsync();
+            return query.DownloadList;
+        }
+
+        public async Task<List<User>> GetUserProfileList(){
+            var query = await _context.UserProfiles.AsQueryable().OrderBy(up => up.UserId).ToListAsync();
+            return query;
+        }
         
     }
 }

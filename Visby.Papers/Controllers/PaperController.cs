@@ -34,8 +34,8 @@ namespace Karenia.Visby.Papers.Controllers
         }
         [HttpGet()]
         public async Task<ResultList<Paper>> search([FromQuery]
-            List<string> keyword = null, [FromQuery]string summary = "", [FromQuery]string startTime = "",
-            [FromQuery]string endTime = "", [FromQuery] List<string> author = null, [FromQuery] int skip = 0, [FromQuery]int take = 10
+            List<string> keyword = null, [FromQuery]string summary = null, [FromQuery]string startTime = null,
+            [FromQuery]string endTime = null, [FromQuery] List<string> author = null, [FromQuery] int skip = 0, [FromQuery]int take = 10
             )
         {
             try
@@ -45,11 +45,11 @@ namespace Karenia.Visby.Papers.Controllers
                 {
                     _service.PaperKeyword(sql, keyword);
                 }
-                if (summary != "")
+                if (summary != null)
                 {
                     _service.PaperSummery(sql, summary);
                 }
-                if (startTime != "" && endTime != "")
+                if (startTime != null && endTime != null)
                 {
                     _service.PaperDate(sql, DateTime.Parse(startTime), DateTime.Parse(endTime));
                 }

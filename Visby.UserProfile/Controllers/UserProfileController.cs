@@ -18,10 +18,12 @@ namespace Karenia.Visby.UserProfile.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserProfileService _service;
+        private readonly AccountService _service_account;
 
-        public UserController(UserProfileContext service)
+        public UserController(UserProfileContext service, AccountContext service_account)
         {
             _service = new UserProfileService(service);
+            _service_account = new AccountService(service_account);
         }
 
         //根据ID返回唯一用户
@@ -41,14 +43,49 @@ namespace Karenia.Visby.UserProfile.Controllers
             return Ok(result);
         }
 
+        // GET api/user/email/{email}
+        [HttpGet("email/{email}")]
+        public async Task<IActionResult> Get(string email)
+        {
+            Result<User> result;
+            var user = await _service.GetUserProfileEmail(email);
+            if (user == null)
+            {
+                result = new Result<User>(404, "User not exists", null);
+                return NotFound(result);
+            }
+
+            result = new Result<User>(200, null, user);
+            return Ok(result);
+        }
+
+        //GET api/alluserprofilelist
+        [HttpGet("alluserprofilelist")]
+        public async Task<List<User>> getUserProfileList()
+        {
+            var result = await _service.GetUserProfileList();
+            return result;
+        }
+
+        public class UserLoginInfo { public User user; public LoginInfo loginInfo; }
+
         //添加新用户
         // POST api/user
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] User user)
+        public async Task<IActionResult> Post([FromBody]UserLoginInfo info)
         {
-            var result = await _service.InsertUserProfile(user);
+            var result = await _service.InsertUserProfile(info.user);
             if (result.Item1 == 200)
-                return Ok(result);
+            {
+                var new_user = await _service.GetUserProfileEmail(info.user.Email);
+                info.loginInfo.UserId = new_user.UserId;
+                var result2 = await _service_account.insertLoginInfo(info.loginInfo);
+                if(result2)
+                    return Ok(result);
+                else
+                    return BadRequest(result);
+            }
+            
             return BadRequest(result);
         }
 
@@ -70,9 +107,11 @@ namespace Karenia.Visby.UserProfile.Controllers
         public async Task<IActionResult> Delete([FromQuery(Name = "id")] int id)
         {
             var user = await _service.GetUserProfile(id);
+            var account = await _service_account.GetLoginInfo(id);
             if (user == null)
                 return NotFound();
             _service.DeleteUserProfile(user);
+            _service_account.deleteLoginInfo(account);
             return NoContent();
         }
     }

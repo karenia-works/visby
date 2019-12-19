@@ -30,8 +30,6 @@ namespace Karenia.Visby.Papers
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-
             services.AddDbContext<PaperContext>(
                 options => options.UseNpgsql(
                     "Host=visby_papers-db_1;Username=root;Password=123456;Database=postgres"

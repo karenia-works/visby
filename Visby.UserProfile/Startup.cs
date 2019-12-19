@@ -67,6 +67,7 @@ namespace Karenia.Visby.UserProfile
             }
 
             );
+            // services.AddScoped<UserProfileService>();
             services.AddAuthentication().AddIdentityServerAuthentication(option =>
             {//TODO change into real ip
                 option.Authority = "localhost:6060";

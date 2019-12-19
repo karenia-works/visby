@@ -13,6 +13,7 @@ namespace Karenia.Visby.UserProfile.Models
     {
         public UserProfileContext(DbContextOptions options) : base(options)
         {
+            this.Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -55,10 +56,10 @@ namespace Karenia.Visby.UserProfile.Models
         public List<UserFollow> Followings { set; get; }
 
         //用户的头像
-        public string Avatar { set; get;}
+        public string Avatar { set; get; }
 
         //最近下载列表
-        public List<int> DownloadList { set; get;}
+        public List<int> DownloadList { set; get; }
     }
 
 

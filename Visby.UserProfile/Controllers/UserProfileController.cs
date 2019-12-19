@@ -26,6 +26,16 @@ namespace Karenia.Visby.UserProfile.Controllers
             _service_account = new AccountService(service_account);
         }
 
+
+        //获取自身身份
+        [HttpGet("me")]
+        public async Task<IActionResult> GetMe()
+        {
+            var user_email = User.Claims.Where(claim => claim.Type=="sub").FirstOrDefault().Value;
+            var user = await _service.GetUserProfileEmail(user_email);
+            return Ok(user);
+        }
+
         //根据ID返回唯一用户
         // GET api/user/{user id}
         [HttpGet("{id}")]

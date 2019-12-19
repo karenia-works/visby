@@ -63,7 +63,7 @@ namespace Karenia.Visby.UserProfile.Services
 
         public async Task<LoginInfo> GetLoginInfo(int id)
         {
-            return await _context.LoginSessions
+            return await _context.LoginSessions.AsQueryable()
                 .FirstOrDefaultAsync(p => p.UserId == id);
         }
     }

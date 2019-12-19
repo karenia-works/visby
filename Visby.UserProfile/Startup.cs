@@ -16,7 +16,6 @@ using Karenia.Visby.UserProfile.Services;
 using Karenia.Visby.Papers.Models;
 using Karenia.Visby.Papers.Services;
 
-
 namespace Karenia.Visby.UserProfile
 {
     public class Startup
@@ -36,11 +35,16 @@ namespace Karenia.Visby.UserProfile
 
             services.AddDbContext<UserProfileContext>(
                 options => options.UseNpgsql(
-                    "Host=visby_user-profile-db_1;Username=root;Password=123456;Database=account"
+                    "Host=visby_user-profile-db_1;Username=root;Password=123456;Database=postgres"
 
-                )
+                )    
             );
+            services.AddDbContext<AccountContext>(
+                options => options.UseNpgsql(
+                    "Host=visby_account-db_1;Username=postgres;Password=postgres;Database=postgres"
 
+                )   
+            );
             services.BuildServiceProvider().GetService<UserProfileContext>().Database.Migrate();
             services.AddAuthorization(option =>
             {

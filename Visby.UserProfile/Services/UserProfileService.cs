@@ -22,13 +22,13 @@ namespace Karenia.Visby.UserProfile.Services
 
         public async Task<User> GetUserProfile(int id)
         {
-            return await _context.UserProfiles
+            return await _context.UserProfiles.AsQueryable()
                 .Where(p => p.UserId == id).FirstOrDefaultAsync();
         }
 
         public async Task<List<User>> GetUserProfilesKeyword(string keyword)
         {
-            return await _context.UserProfiles
+            return await _context.UserProfiles.AsQueryable()
                 .Where(up => up.UserName.Contains(keyword))
                 .ToListAsync();
         }
@@ -41,7 +41,7 @@ namespace Karenia.Visby.UserProfile.Services
         public async Task<List<User>> GetFollowers(int id)
         {
             // 获取主动关注当前用户的人
-            return await _context.UserFollows
+            return await _context.UserFollows.AsQueryable()
                 .Where(uf => uf.FollowerId == id)
                 .Select(uf => _context.UserProfiles
                     .FirstOrDefault(up => up.UserId == uf.FollowingId))
@@ -51,7 +51,7 @@ namespace Karenia.Visby.UserProfile.Services
         public async Task<List<User>> GetFollowings(int id)
         {
             // 获取当前用户主动关注的人
-            return await _context.UserFollows
+            return await _context.UserFollows.AsQueryable()
                 .Where(uf => uf.FollowerId == id)
                 .Select(uf => _context.UserProfiles
                     .FirstOrDefault(up => up.UserId == uf.FollowerId))
@@ -130,7 +130,7 @@ namespace Karenia.Visby.UserProfile.Services
             if(!_context.UserProfiles.Any(up => up.UserId == user_id)){
                 return null;
             }
-            var query = await _context.UserProfiles.Where(up => up.UserId == user_id).FirstOrDefaultAsync();
+            var query = await _context.UserProfiles.AsQueryable().Where(up => up.UserId == user_id).FirstOrDefaultAsync();
             return query.DownloadList;
         }
 

@@ -81,7 +81,19 @@ namespace Karenia.Visby.UserProfile.Controllers
 
         //添加新用户
         // POST api/user
-        [HttpPost]
+        // [HttpPost]
+        // public async Task<IActionResult> Post([FromBody]User user)
+        // {
+        //     var result = await _service.InsertUserProfile(user);
+        //     if (result.Item1 == 200)
+        //     {
+        //         var new_user = await _service.GetUserProfileEmail(user.Email);
+        //             return Ok(result);
+        //     }
+            
+        //     return BadRequest(result);
+        // }
+
         public async Task<IActionResult> Post([FromBody]UserLoginInfo info)
         {
             var result = await _service.InsertUserProfile(info.user);

@@ -11,7 +11,7 @@ namespace Karenia.Visby.UserProfile.Models
 {
     public class UserProfileContext : DbContext
     {
-        public UserProfileContext(DbContextOptions options) : base(options)
+        public UserProfileContext(DbContextOptions<UserProfileContext> options) : base(options)
         {
             this.Database.Migrate();
         }

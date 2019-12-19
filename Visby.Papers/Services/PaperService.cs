@@ -15,6 +15,8 @@ namespace Karenia.Visby.Papers.Services
         public PaperService(PaperContext paperContext)
         {
             _context = paperContext;
+            paperContext.Database.ExecuteSqlRaw("CREATE EXTENSION pg_trgm");
+            paperContext.Database.ExecuteSqlRaw("CREATE EXTENSION pg_jieba");
         }
 
         public async Task<Paper> GetPaper(int id)

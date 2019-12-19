@@ -25,6 +25,8 @@ services:
       - account-db
     networks:
       - all
+    volumes:
+      - ./signing:/app/signing
 
   account-db:
     image: postgres:12

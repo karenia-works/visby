@@ -24,9 +24,9 @@ namespace Karenia.Visby.Account.Services
                     {
                         new Secret("client".Sha256())
                     },
-                    AllowedCorsOrigins = {
-                        "*"
-                    },
+                    // AllowedCorsOrigins = {
+                    //     "*"
+                    // },
                     AllowedScopes = new[] {"scope"},
                     // AllowedCorsOrigins=new[]{"*"}
                     AccessTokenLifetime = 3600 * 24,

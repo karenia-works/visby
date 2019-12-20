@@ -21,8 +21,9 @@ services:
     build: web-root/
     networks:
       - all
-
+      
   visby-account:
+    image: visby-account
     build:
       context: "."
       dockerfile: "./account.Dockerfile"
@@ -48,6 +49,7 @@ services:
       - all
 
   visby-papers:
+    image: visby-papers
     build:
       context: "."
       dockerfile: "./papers.Dockerfile"
@@ -59,6 +61,7 @@ services:
       - all
 
   papers-db:
+    image: pg-jieba
     build:
       context: "."
       dockerfile: "./pgsql-jieba.Dockerfile"
@@ -74,6 +77,7 @@ services:
       - all
 
   visby-professors:
+    image: visby-professors
     build:
       context: "."
       dockerfile: "./professors.Dockerfile"
@@ -100,6 +104,7 @@ services:
       - all
 
   visby-user-profile:
+    image: visby-user-profile
     build:
       context: "."
       dockerfile: "./user-profile.Dockerfile"

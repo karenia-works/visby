@@ -36,13 +36,12 @@ namespace Karenia.Visby.UserProfile
 
             services.AddDbContext<UserProfileContext>(
                 options => options.UseNpgsql(
-                    "Host=visby_user-profile-db_1;Username=root;Password=123456;Database=postgres"
-
+                    Configuration.GetConnectionString("profileDb")
                 )
             );
             services.AddDbContext<AccountContext>(
                 options => options.UseNpgsql(
-                    "Host=visby_account-db_1;Username=root;Password=123456;Database=account"
+                    Configuration.GetConnectionString("accountDb")
                 )
             );
             services.BuildServiceProvider().GetService<UserProfileContext>().Database.Migrate();

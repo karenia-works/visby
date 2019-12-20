@@ -32,8 +32,7 @@ namespace Karenia.Visby.Papers
         {
             services.AddDbContext<PaperContext>(
                 options => options.UseNpgsql(
-                    "Host=visby_papers-db_1;Username=root;Password=123456;Database=postgres"
-                )
+                    Configuration.GetConnectionString("paperDb"))
             );
 
             services.AddAuthentication(IdentityServerConstants.AccessTokenAudience).AddIdentityServerAuthentication(IdentityServerConstants.AccessTokenAudience, option =>

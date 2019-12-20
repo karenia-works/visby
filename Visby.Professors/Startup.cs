@@ -28,8 +28,8 @@ namespace Karenia.Visby.Professors
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string connectionEnvironment =
-                Environment.GetEnvironmentVariable(Configuration.GetConnectionString("ConnectionEnvironment"));
+            // string connectionEnvironment =
+            //     Environment.GetEnvironmentVariable(Configuration.GetConnectionString("ConnectionEnvironment"));
 
             services.AddDbContext<ProfessorContext>(
                 options => options.UseNpgsql(

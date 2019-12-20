@@ -67,20 +67,23 @@ namespace Karenia.Visby.Papers.Controllers
                         newsql = _service.PaperAuthor(newsql, author);
                     }
                     var eps = await _service.GetSqlResult(newsql, skip, take);
+                    var ecount = await sql.CountAsync();
                     if (eps.Count == 0)
                     {
                         hasnext = false;
                     }
-                    return new ResultList<Paper>(200, "success", eps, hasnext, eps.Count, "");
+                    return new ResultList<Paper>(200, "success", eps, hasnext, ecount, "");
                 }
 
                 var ps = await _service.GetSqlResult(sql, skip, take);
+                var count = await sql.CountAsync();
+
 
                 if (ps.Count == 0)
                 {
                     hasnext = false;
                 }
-                return new ResultList<Paper>(200, "success", ps, hasnext, ps.Count, "");
+                return new ResultList<Paper>(200, "success", ps, hasnext, count, "");
             }
             catch (Exception e)
             {

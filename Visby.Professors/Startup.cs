@@ -33,7 +33,7 @@ namespace Karenia.Visby.Professors
 
             services.AddDbContext<ProfessorContext>(
                 options => options.UseNpgsql(
-                    "Host=visby_professors-db_1;Username=root;Password=123456;Database=account"
+                    "Host=visby_professors-db_1;Username=root;Password=123456;Database=postgres"
                 )
             );
 
@@ -62,7 +62,7 @@ namespace Karenia.Visby.Professors
                 }
             );
 
-            // services.BuildServiceProvider().GetService<ProfessorContext>().Database.Migrate();
+            services.BuildServiceProvider().GetService<ProfessorContext>().Database.Migrate();
 
             services.AddScoped<ProfessorService>();
             services.AddScoped<ProfessorApplyService>();

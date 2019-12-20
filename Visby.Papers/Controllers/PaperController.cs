@@ -87,7 +87,7 @@ namespace Karenia.Visby.Papers.Controllers
                 return new ResultList<Paper>(400, e.Message, null, false, 0, "");
             }
         }
-        [Authorize("professorApi")]
+        // [Authorize("professorApi")]
         [HttpPost]
         public async Task<Result<Paper>> insertPaper([FromBody]Paper paper)
         {

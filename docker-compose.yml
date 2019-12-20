@@ -14,6 +14,7 @@ services:
       - visby-papers
       - visby-professors
       - visby-user-profile
+      - kiruna
 
   kiruna:
     image: kiruna
@@ -61,8 +62,8 @@ services:
     build:
       context: "."
       dockerfile: "./pgsql-jieba.Dockerfile"
-    # volumes:
-    #   - papers-db-volume:/var/lib/postgresql/data
+    volumes:
+      - papers-db-volume:/var/lib/postgresql/data
 
     environment:
       POSTGRES_USER: root
@@ -88,7 +89,7 @@ services:
   professors-db:
     image: postgres:12
     volumes:
-      - papers-db-volume:/var/lib/postgresql/data
+      - professors-db-volume:/var/lib/postgresql/data
 
     environment:
       POSTGRES_USER: root

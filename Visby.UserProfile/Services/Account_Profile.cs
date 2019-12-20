@@ -59,7 +59,7 @@ namespace Karenia.Visby.UserProfile.Services
                 _context.LoginSessions.Update(loginInfo);
                 await _context.SaveChangesAsync();
             }
-            catch (Exception e)
+            catch
             {
                 result = Tuple.Create(400, "update failed");
                 return result;

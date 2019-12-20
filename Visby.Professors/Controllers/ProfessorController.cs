@@ -37,7 +37,9 @@ namespace Karenia.Visby.Professors.Controllers
                 return Ok(new ResultList<Professor>(200, null, res.Item1, hasNext, res.Item2, ""));
             }
 
-            return NotFound();
+            var _res = await _service.GetProfessors(limit, offset);
+            bool _hasNext = (_res.Item1.Count != limit);
+            return Ok(new ResultList<Professor>(200, null, _res.Item1, _hasNext, _res.Item2, ""));
         }
 
         // GET api/professor/{professor id}

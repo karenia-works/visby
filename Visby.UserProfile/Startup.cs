@@ -15,7 +15,8 @@ using Karenia.Visby.UserProfile.Models;
 using Karenia.Visby.UserProfile.Services;
 using Karenia.Visby.Papers.Models;
 using Karenia.Visby.Papers.Services;
-
+using IdentityServer4;
+using Microsoft.IdentityModel.Logging;
 namespace Karenia.Visby.UserProfile
 {
     public class Startup
@@ -37,13 +38,12 @@ namespace Karenia.Visby.UserProfile
                 options => options.UseNpgsql(
                     "Host=visby_user-profile-db_1;Username=root;Password=123456;Database=postgres"
 
-                )    
+                )
             );
             services.AddDbContext<AccountContext>(
                 options => options.UseNpgsql(
-                    "Host=visby_account-db_1;Username=postgres;Password=postgres;Database=postgres"
-
-                )   
+                    "Host=visby_account-db_1;Username=root;Password=123456;Database=account"
+                )
             );
             services.BuildServiceProvider().GetService<UserProfileContext>().Database.Migrate();
             services.AddAuthorization(option =>
@@ -51,34 +51,41 @@ namespace Karenia.Visby.UserProfile
                 option.AddPolicy(
                     "professorApi", policy =>
                     {
+                        policy.AddAuthenticationSchemes(IdentityServerConstants.AccessTokenAudience);
                         policy.RequireAuthenticatedUser();
-                        policy.RequireClaim("Role", "professor");
+                        policy.RequireClaim("Role", "1");
                     });
                 option.AddPolicy(
                     "userProfileApi", policy =>
                     {
+                        policy.AddAuthenticationSchemes(IdentityServerConstants.AccessTokenAudience);
                         policy.RequireAuthenticatedUser();
-                        policy.RequireClaim("Role", "userProfile");
+                        policy.RequireClaim("Role", "0");
                     }
                 );
                 option.AddPolicy(
                     "adminApi", policy =>
                     {
+                        policy.AddAuthenticationSchemes(IdentityServerConstants.AccessTokenAudience);
                         policy.RequireAuthenticatedUser();
-                        policy.RequireClaim("Role", "admin");
+                        policy.RequireClaim("Role", "2");
                     }
                 );
             }
-
             );
             // services.AddScoped<UserProfileService>();
-            services.AddAuthentication().AddIdentityServerAuthentication(option =>
-            {//TODO change into real ip
-                option.Authority = "localhost:6060";
-                option.ApiName = "api1";
-                option.ApiSecret = "client";
-            }
-            );
+            services.AddAuthentication(IdentityServerConstants.AccessTokenAudience).AddIdentityServerAuthentication(IdentityServerConstants.AccessTokenAudience, option =>
+           {//TODO change into real ip
+               option.Authority = "http://10.251.252.9";
+               //option.Audience = "api1";
+               //option.MetadataAddress = "visby_visby-account_1" + "/.well-known/openid-configuration";
+               option.ApiName = "scope";
+               option.ApiSecret = "client";
+               option.RequireHttpsMetadata = false;
+
+               //option.Configuration = new Microsoft.IdentityModel.Protocols.OpenIdConnect.OpenIdConnectConfiguration();
+           }
+          );
             services.AddCors();
             services.AddControllers();
         }
@@ -90,9 +97,10 @@ namespace Karenia.Visby.UserProfile
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            IdentityModelEventSource.ShowPII = true;
             app.UseRouting();
             app.UseAuthorization();
+            app.UseAuthentication();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

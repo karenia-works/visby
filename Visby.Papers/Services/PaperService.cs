@@ -11,11 +11,26 @@ namespace Karenia.Visby.Papers.Services
     public class PaperService
     {
         public readonly PaperContext _context;
+        private static bool migrated = false;
 
         public PaperService(PaperContext paperContext)
         {
             _context = paperContext;
-
+            if (!migrated)
+            {
+                this._context.Database.Migrate();
+                try
+                {
+                    this._context.Database.ExecuteSqlRaw("CREATE EXTENSION pg_trgm");
+                }
+                catch (Exception e) { }
+                try
+                {
+                    this._context.Database.ExecuteSqlRaw("CREATE EXTENSION pg_jieba");
+                }
+                catch (Exception e) { }
+                migrated = true;
+            }
         }
 
         public async Task<Paper> GetPaper(int id)
@@ -27,7 +42,7 @@ namespace Karenia.Visby.Papers.Services
 
         public IAsyncEnumerable<Paper> PaperKeyword(IAsyncEnumerable<Paper> sql, List<String> Keywords)
         {
-            return sql.Where(p => p.Keywords.All(i => Keywords.Contains(i)));
+            return sql.Where(p => Keywords.All(i =>p. Keywords.Contains(i)));
             /*var ps = await _context.Papers.FromSqlRaw("select * from Papers where keyword <@ '{0}'", Keywords)
                 .ToListAsync();
             return ps;*/
@@ -41,7 +56,7 @@ namespace Karenia.Visby.Papers.Services
         public IAsyncEnumerable<Paper> PaperAuthor(IAsyncEnumerable<Paper> sql, List<String> authors)
         {
 
-            return sql.Where(p => p.Authors.All(i => authors.Contains(i)));
+            return sql.Where(p => authors.All(i => p.Authors.Contains(i)));
 
             /*var ps = await _context.Papers.FromSqlRaw("select * from public.\"Papers\" where \"Authors\" @> array[{0}]", authors)
                 .ToListAsync();
@@ -89,13 +104,14 @@ namespace Karenia.Visby.Papers.Services
         }
         public async Task<Paper> insertPaper(Paper tgt)
         {
-            var tmp = await PaperTitle(tgt.Title);
-            if (tmp != null)
-            {
-                return null;
-            }
+            // var tmp = await PaperTitle(tgt.Title);
+            // if (tmp != null)
+            // {
+            //     return null;
+            // }
             var result = await _context.Papers.AddAsync(tgt);
-            tmp = await PaperTitle(tgt.Title);
+            await _context.SaveChangesAsync();
+            var tmp = await PaperTitle(tgt.Title);
             return tmp;
         }
         public async Task<List<Paper>> test()

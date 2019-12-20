@@ -15,6 +15,12 @@ services:
       - visby-professors
       - visby-user-profile
 
+  kiruna:
+    image: kiruna
+    build: web-root/
+    networks:
+      - all
+
   visby-account:
     build:
       context: "."
@@ -120,9 +126,13 @@ services:
 
 volumes:
   account-db-volume:
+    external: true
   papers-db-volume:
+    external: true
   professors-db-volume:
+    external: true
   user-profile-db-volume:
+    external: true
 
 networks:
   all:

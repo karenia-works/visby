@@ -31,3 +31,4 @@ extent
 .vscode.code-workspace
 # JetBrains Rider
 .idea/
+# /web-root

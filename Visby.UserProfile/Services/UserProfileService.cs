@@ -22,13 +22,13 @@ namespace Karenia.Visby.UserProfile.Services
 
         public async Task<User> GetUserProfile(int id)
         {
-            return await _context.UserProfiles
+            return await _context.UserProfiles.AsQueryable()
                 .Where(p => p.UserId == id).FirstOrDefaultAsync();
         }
 
         public async Task<List<User>> GetUserProfilesKeyword(string keyword)
         {
-            return await _context.UserProfiles
+            return await _context.UserProfiles.AsQueryable()
                 .Where(up => up.UserName.Contains(keyword))
                 .ToListAsync();
         }
@@ -41,7 +41,7 @@ namespace Karenia.Visby.UserProfile.Services
         public async Task<List<User>> GetFollowers(int id)
         {
             // 获取主动关注当前用户的人
-            return await _context.UserFollows
+            return await _context.UserFollows.AsQueryable()
                 .Where(uf => uf.FollowerId == id)
                 .Select(uf => _context.UserProfiles
                     .FirstOrDefault(up => up.UserId == uf.FollowingId))
@@ -51,14 +51,15 @@ namespace Karenia.Visby.UserProfile.Services
         public async Task<List<User>> GetFollowings(int id)
         {
             // 获取当前用户主动关注的人
-            return await _context.UserFollows
+            return await _context.UserFollows.AsQueryable()
                 .Where(uf => uf.FollowerId == id)
                 .Select(uf => _context.UserProfiles
                     .FirstOrDefault(up => up.UserId == uf.FollowerId))
                 .ToListAsync();
         }
 
-        public async Task<Tuple<int, string>> InsertUserProfile(User user_in){
+        public async Task<Tuple<int, string>> InsertUserProfile(User user_in)
+        {
             // Tuple<bool, Result<User>> result;
             // if(_context.UserProfiles.Any(uf => uf.Email == user_in.Email)){
             //     result = new Tuple<bool, Result<User>>(false,
@@ -69,14 +70,16 @@ namespace Karenia.Visby.UserProfile.Services
 
             //id置0
             user_in.UserId = 0;
-            
+
             Tuple<int, string> result;
 
-            try{
+            try
+            {
                 await _context.AddAsync(user_in);
                 await _context.SaveChangesAsync();
             }
-            catch(Exception e){
+            catch (Exception e)
+            {
                 result = Tuple.Create(400, "insert failed");
                 return result;
             }
@@ -87,7 +90,8 @@ namespace Karenia.Visby.UserProfile.Services
         }
 
         //public async Task<Tuple<int, string>> DeleteUserProfile(User user){
-        public async void DeleteUserProfile(User user){
+        public async void DeleteUserProfile(User user)
+        {
             // Tuple<int, string> result;
 
             // try{
@@ -105,18 +109,22 @@ namespace Karenia.Visby.UserProfile.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Tuple<int, string>> UpdateUserProfile(User user_in){
+        public async Task<Tuple<int, string>> UpdateUserProfile(User user_in)
+        {
             Tuple<int, string> result;
-            if(!_context.UserProfiles.Any(uf => uf.UserId == user_in.UserId)){
-                result = new Tuple<int, string>(404,"User Profile do not exist");
+            if (!_context.UserProfiles.Any(uf => uf.UserId == user_in.UserId))
+            {
+                result = new Tuple<int, string>(404, "User Profile do not exist");
                 return result;
             }
 
-            try{
+            try
+            {
                 _context.UserProfiles.Update(user_in);
                 await _context.SaveChangesAsync();
             }
-            catch(Exception e){
+            catch (Exception e)
+            {
                 result = Tuple.Create(400, "update failed");
                 return result;
             }
@@ -125,19 +133,22 @@ namespace Karenia.Visby.UserProfile.Services
             return result;
         }
 
-        public async Task<List<int>> GetDownLoadList(string id_in){
-            int user_id = Convert.ToInt32(id_in);
-            if(!_context.UserProfiles.Any(up => up.UserId == user_id)){
-                return null;
-            }
-            var query = await _context.UserProfiles.Where(up => up.UserId == user_id).FirstOrDefaultAsync();
+        public async Task<List<int>> GetDownLoadList(string id_in)
+        {
+            int user_id = Convert.ToInt32(id_in);
+            if (!_context.UserProfiles.AsQueryable().Any(up => up.UserId == user_id))
+            {
+                return null;
+            }
+            var query = await _context.UserProfiles.AsQueryable().Where(up => up.UserId == user_id).FirstOrDefaultAsync();
             return query.DownloadList;
         }
 
-        public async Task<List<User>> GetUserProfileList(){
+        public async Task<List<User>> GetUserProfileList()
+        {
             var query = await _context.UserProfiles.AsQueryable().OrderBy(up => up.UserId).ToListAsync();
             return query;
         }
-        
+
     }
 }

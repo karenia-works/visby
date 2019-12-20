@@ -42,7 +42,7 @@ namespace Karenia.Visby.Papers.Services
 
         public IAsyncEnumerable<Paper> PaperKeyword(IAsyncEnumerable<Paper> sql, List<String> Keywords)
         {
-            return sql.Where(p => Keywords.All(i =>p. Keywords.Contains(i)));
+            return sql.Where(p => Keywords.All(i => p.Keywords.Contains(i)));
             /*var ps = await _context.Papers.FromSqlRaw("select * from Papers where keyword <@ '{0}'", Keywords)
                 .ToListAsync();
             return ps;*/
@@ -80,13 +80,13 @@ namespace Karenia.Visby.Papers.Services
         public async Task<List<Paper>> GetSqlResult(IQueryable<Paper> sql, int Skip, int take)
         {
 
-            var ps = await sql.OrderBy(p => p.Quote).Skip(Skip).Take(take).ToListAsync();
+            var ps = await sql.OrderBy(p => p.QuoteCount).Skip(Skip).Take(take).ToListAsync();
             return ps;
         }
         public async Task<List<Paper>> GetSqlResult(IAsyncEnumerable<Paper> sql, int Skip, int take)
         {
 
-            var ps = await sql.OrderBy(p => p.Quote).Skip(Skip).Take(take).ToListAsync();
+            var ps = await sql.OrderBy(p => p.QuoteCount).Skip(Skip).Take(take).ToListAsync();
             return ps;
         }
         public IQueryable<Paper> PaperSummery(IQueryable<Paper> sql, String tgt) //记得 加索引
@@ -96,7 +96,7 @@ namespace Karenia.Visby.Papers.Services
 
 
         }
-
+        // public async Task<int>
         public async Task<Paper> PaperTitle(string title)
         {
             var res = await _context.Papers.AsQueryable().Select(o => o).Where(o => o.Title == title).FirstOrDefaultAsync();

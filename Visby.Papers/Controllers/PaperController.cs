@@ -118,5 +118,12 @@ namespace Karenia.Visby.Papers.Controllers
             return new ResultList<Paper>(200, "O~K", res, false, res.Count, null);
         }
 
+        [HttpGet("{id}/ref")]
+        public async Task<ResultList<Paper>> getReferences(int id)
+        {
+            var result = await _service.GetPaperRef(id);
+            return new ResultList<Paper>(200, null, result, false, result.Count, null);
+        }
+
     }
 }

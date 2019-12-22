@@ -93,9 +93,8 @@ namespace Karenia.Visby.Papers.Services
         {
             return sql.Where(p => EF.Functions.ToTsVector("jiebaqry", p.Summary).Matches(EF.Functions.ToTsQuery("jiebaqry", tgt)));
             //return sql + $"and (to_tsvector('jiebaqry', \"Summary\") @@ to_tsquery('jiebaqry',' {sql}') )";
-
-
         }
+
         public async Task<List<Paper>> GetPapers(List<int> tgtPapers)
         {
             var res = new List<Paper>();
@@ -131,6 +130,12 @@ namespace Karenia.Visby.Papers.Services
         public async Task<List<Paper>> GetPapers()
         {
             return await _context.Papers.AsQueryable().ToListAsync();
+        }
+
+        public async Task<List<Paper>> GetPaperRef(int id)
+        {
+            var quotes = _context.Quotes.AsQueryable().Where(quote => quote.From == id);
+            return await _context.Papers.AsQueryable().Where(paper => quotes.Any(quote => quote.By == paper.PaperId)).ToListAsync();
         }
     }
 }

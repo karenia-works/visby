@@ -133,6 +133,34 @@ namespace Karenia.Visby.UserProfile.Services
             return result;
         }
 
+        public async Task<bool> AddFavorite(int id, int paperId)
+        {
+            var user = await _context.UserProfiles.AsQueryable().Where(user => user.UserId == id).FirstOrDefaultAsync();
+
+            if (user == null) return false;
+            else
+            {
+                _context.UserProfiles.Update(user);
+                user.FavoriteList.Add(paperId);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+        }
+
+        public async Task<bool> AddDownload(int id, int paperId)
+        {
+            var user = await _context.UserProfiles.AsQueryable().Where(user => user.UserId == id).FirstOrDefaultAsync();
+
+            if (user == null) return false;
+            else
+            {
+                _context.UserProfiles.Update(user);
+                user.DownloadList.Add(paperId);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+        }
+
         public async Task<List<int>> GetDownLoadList(string id_in)
         {
             int user_id = Convert.ToInt32(id_in);

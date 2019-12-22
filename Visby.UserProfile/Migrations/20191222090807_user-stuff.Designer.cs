@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using Karenia.Visby.UserProfile.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Karenia.Visby.UserProfile.Migrations
 {
     [DbContext(typeof(UserProfileContext))]
-    partial class UserProfileContextModelSnapshot : ModelSnapshot
+    [Migration("20191222090807_user-stuff")]
+    partial class userstuff
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,9 +41,6 @@ namespace Karenia.Visby.UserProfile.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("character varying(256)")
                         .HasMaxLength(256);
-
-                    b.Property<List<int>>("FavoriteList")
-                        .HasColumnType("integer[]");
 
                     b.Property<string>("UserName")
                         .HasColumnType("character varying(256)")

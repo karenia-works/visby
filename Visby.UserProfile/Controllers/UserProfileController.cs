@@ -141,11 +141,40 @@ namespace Karenia.Visby.UserProfile.Controllers
             var user = await _service.GetUserProfile(id);
             var account = await _service_account.GetLoginInfo(id);
             if (user == null)
-                return NotFound();
+                return BadRequest("No such user");
             _service.DeleteUserProfile(user);
             _service_account.deleteLoginInfo(account);
             return NoContent();
         }
+
+        [HttpPost("{id}/add-favourite")]
+        public async Task<IActionResult> AddFavorite(int id, [FromQuery] int paper)
+        {
+            var result = await _service.AddFavorite(id, paper);
+            if (result)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest("No such user");
+            }
+        }
+
+        [HttpPost("{id}/add-download")]
+        public async Task<IActionResult> AddDownload(int id, [FromQuery] int paper)
+        {
+            var result = await _service.AddDownload(id, paper);
+            if (result)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest("No such user");
+            }
+        }
+
     }
 
     public static class ObjectDump

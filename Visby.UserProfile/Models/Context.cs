@@ -60,6 +60,7 @@ namespace Karenia.Visby.UserProfile.Models
 
         //最近下载列表
         public List<int> DownloadList { set; get; }
+        public List<int> FavoriteList { set; get; }
     }
 
 

@@ -96,6 +96,15 @@ namespace Karenia.Visby.Papers.Services
 
 
         }
+        public async Task<List<Paper>> GetPapers(List<int> tgtPapers)
+        {
+            var res = new List<Paper>();
+            foreach (var tgt in tgtPapers)
+            {
+                res.Add(await _context.Papers.AsQueryable().Select(o => o).Where(o => o.PaperId == tgt).FirstOrDefaultAsync());
+            }
+            return res;
+        }
         // public async Task<int>
         public async Task<Paper> PaperTitle(string title)
         {

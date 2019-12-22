@@ -28,12 +28,12 @@ namespace Karenia.Visby.Professors
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string connectionEnvironment =
-                Environment.GetEnvironmentVariable(Configuration.GetConnectionString("ConnectionEnvironment"));
+            // string connectionEnvironment =
+            //     Environment.GetEnvironmentVariable(Configuration.GetConnectionString("ConnectionEnvironment"));
 
             services.AddDbContext<ProfessorContext>(
                 options => options.UseNpgsql(
-                    "Host=visby_professors-db_1;Username=root;Password=123456;Database=account"
+                    Configuration.GetConnectionString("professorDb")
                 )
             );
 
@@ -64,8 +64,8 @@ namespace Karenia.Visby.Professors
 
             services.BuildServiceProvider().GetService<ProfessorContext>().Database.Migrate();
 
-            services.AddSingleton<ProfessorService>();
-            services.AddSingleton<ProfessorApplyService>();
+            services.AddScoped<ProfessorService>();
+            services.AddScoped<ProfessorApplyService>();
 
             services.AddAuthentication().AddIdentityServerAuthentication(option =>
                 {

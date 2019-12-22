@@ -1,0 +1,3 @@
+[submodule "kiruna"]
+path = web-root
+url = https://github.com/karenia-works/kiruna.git

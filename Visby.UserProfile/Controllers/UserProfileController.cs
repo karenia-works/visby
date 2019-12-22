@@ -9,9 +9,17 @@ using Karenia.Visby.UserProfile.Models;
 using Karenia.Visby.UserProfile.Services;
 using Karenia.Visby.Result;
 using Microsoft.AspNetCore.JsonPatch;
+using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Karenia.Visby.UserProfile.Controllers
 {
+    public class UserLoginInfo
+    {
+        public User User { get; set; }
+        public LoginInfo LoginInfo { get; set; }
+    }
+
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
@@ -24,6 +32,18 @@ namespace Karenia.Visby.UserProfile.Controllers
         {
             _service = new UserProfileService(service);
             _service_account = new AccountService(service_account);
+        }
+
+
+        //获取自身身份
+        [HttpGet("me")]
+        // [Authorize("userProfileApi")]
+        public async Task<IActionResult> GetMe()
+        {
+            // var user_email = User.Claims.Where(claim => claim.Type == "sub").FirstOrDefault().Value;
+            // Console.WriteLine(User.Claims);
+            var user = await _service.GetUserProfile(5);
+            return Ok(user);
         }
 
         //根据ID返回唯一用户
@@ -67,25 +87,37 @@ namespace Karenia.Visby.UserProfile.Controllers
             return result;
         }
 
-        public class UserLoginInfo { public User user; public LoginInfo loginInfo; }
 
         //添加新用户
         // POST api/user
         [HttpPost]
+        // public async Task<IActionResult> Post([FromBody]User user)
+        // {
+        //     var result = await _service.InsertUserProfile(user);
+        //     if (result.Item1 == 200)
+        //     {
+        //         var new_user = await _service.GetUserProfileEmail(user.Email);
+        //             return Ok(result);
+        //     }
+
+        //     return BadRequest(result);
+        // }
+
         public async Task<IActionResult> Post([FromBody]UserLoginInfo info)
         {
-            var result = await _service.InsertUserProfile(info.user);
+            ObjectDump.Write(Console.Out, info);
+            var result = await _service.InsertUserProfile(info.User);
             if (result.Item1 == 200)
             {
-                var new_user = await _service.GetUserProfileEmail(info.user.Email);
-                info.loginInfo.UserId = new_user.UserId;
-                var result2 = await _service_account.insertLoginInfo(info.loginInfo);
-                if(result2)
+                var new_user = await _service.GetUserProfileEmail(info.User.Email);
+                info.LoginInfo.UserId = new_user.UserId;
+                var result2 = await _service_account.insertLoginInfo(info.LoginInfo);
+                if (result2)
                     return Ok(result);
                 else
                     return BadRequest(result);
             }
-            
+
             return BadRequest(result);
         }
 
@@ -115,4 +147,53 @@ namespace Karenia.Visby.UserProfile.Controllers
             return NoContent();
         }
     }
+
+    public static class ObjectDump
+    {
+        public static void Write(TextWriter writer, object obj)
+        {
+            if (obj == null)
+            {
+                writer.WriteLine("Object is null");
+                return;
+            }
+
+            writer.Write("Hash: ");
+            writer.WriteLine(obj.GetHashCode());
+            writer.Write("Type: ");
+            writer.WriteLine(obj.GetType());
+
+            var props = GetProperties(obj);
+
+            if (props.Count > 0)
+            {
+                writer.WriteLine("-------------------------");
+            }
+
+            foreach (var prop in props)
+            {
+                writer.Write(prop.Key);
+                writer.Write(": ");
+                writer.WriteLine(prop.Value);
+            }
+        }
+
+        private static Dictionary<string, string> GetProperties(object obj)
+        {
+            var props = new Dictionary<string, string>();
+            if (obj == null)
+                return props;
+
+            var type = obj.GetType();
+            foreach (var prop in type.GetProperties())
+            {
+                var val = prop.GetValue(obj, new object[] { });
+                var valStr = val == null ? "" : val.ToString();
+                props.Add(prop.Name, valStr);
+            }
+
+            return props;
+        }
+    }
+
 }

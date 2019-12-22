@@ -32,11 +32,8 @@ namespace Karenia.Visby.Papers
         {
             services.AddDbContext<PaperContext>(
                 options => options.UseNpgsql(
-                    "Host=visby_papers-db_1;Username=root;Password=123456;Database=postgres"
-                )
+                    Configuration.GetConnectionString("paperDb"))
             );
-
-            services.BuildServiceProvider().GetService<PaperContext>().Database.Migrate();
 
             services.AddAuthentication(IdentityServerConstants.AccessTokenAudience).AddIdentityServerAuthentication(IdentityServerConstants.AccessTokenAudience, option =>
             {//TODO change into real ip

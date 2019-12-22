@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Karenia.Visby.Account.Models;
 using Microsoft.EntityFrameworkCore;
 using IdentityServer4;
+using IdentityServer4.Services;
 using Karenia.Visby.Account.Services;
 
 namespace Karenia.Visby.Account
@@ -31,16 +32,20 @@ namespace Karenia.Visby.Account
         {
 
             services.AddDbContext<AccountContext>(
-                options => options.UseNpgsql("Host=visby_account-db_1;Username=postgres;Password=postgres;Database=account")
+                options => options.UseNpgsql("Host=visby_account-db_1;Username=root;Password=123456;Database=account")
             );
 
             services.BuildServiceProvider().GetService<AccountContext>().Database.Migrate();
-            services.AddCors();
+            services.AddSingleton<ICorsPolicyService>(new DefaultCorsPolicyService(new LoggerFactory().CreateLogger<DefaultCorsPolicyService>())
+            {
+                AllowedOrigins = new[] { "*" },
+                AllowAll = true
+            });
             services.AddScoped<AccountService>();
             services.AddScoped<AccountStore>();
             services.AddControllers();
             services.AddIdentityServer().AddJwtBearerClientAuthentication()
-                .AddDeveloperSigningCredential()
+                .AddDeveloperSigningCredential(filename: "signing/cert")
                 .AddInMemoryClients(Config.GetClients())
                 .AddInMemoryApiResources(Config.GetApiResources())
             .AddResourceOwnerValidator<AccountStore>();
@@ -53,10 +58,15 @@ namespace Karenia.Visby.Account
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors(policy =>
+            {
+                policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+            });
 
             app.UseRouting();
             app.UseIdentityServer();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
         }
 
 

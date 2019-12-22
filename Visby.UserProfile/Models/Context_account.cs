@@ -9,8 +9,9 @@ namespace Karenia.Visby.UserProfile.Models
 {
     public class AccountContext : DbContext
     {
-        public AccountContext(DbContextOptions options) : base(options)
+        public AccountContext(DbContextOptions<AccountContext> options) : base(options)
         {
+            //this.Database.Migrate();
 
         }
 

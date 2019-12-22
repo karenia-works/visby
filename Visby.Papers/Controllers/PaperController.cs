@@ -99,6 +99,12 @@ namespace Karenia.Visby.Papers.Controllers
             }
             return new Result<Paper>(200, "O~K", res);
         }
+        [HttpGet("papers")]
+        public async Task<ResultList<Paper>> findPapers([FromQuery] List<int> tgt = null)
+        {
+            var res = await _service.GetPapers(tgt);
+            return new ResultList<Paper>(200, "Ko", res, false, 0, "");
+        }
         [HttpGet("test")]
         public async Task<ResultList<Paper>> test()
         {
